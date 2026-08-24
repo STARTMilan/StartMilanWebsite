@@ -10,25 +10,25 @@
       "borderClass": "border-primary",
       "description": "The Operations department is the backbone of our organization, building the digital backbone of our community, from our platform to hackathon tools and internal automation, while ensuring our processes run smoothly and positioning START Milan for long-term success financially, legally, and operationally.",
       "lead": {
-        "name": "Gabriele Marmo",
+        "name": "Stanislaw Szymanski",
         "role": "Head of Operations",
-        "img": "photos_starties/Gabriele.jpg",
+        "img": "photos_starties/stanislaw-szymanski.jpeg",
         "links": {
-          "linkedin": "https://www.linkedin.com/in/gabrielemarmo/",
+          "linkedin": "www.linkedin.com/in/stanislaw-szymanski-63a426261",
           "website": ""
         }
       },
       "pos": { "x": 50, "y": 80 },
       "people": [
         {
-          "img": "photos_starties/Gabriele.jpg",
+          "img": "photos_starties/stanislaw-szymanski.jpeg",
           "size": 24,
-          "name": "Gabriele Marmo",
+          "name": "Stanislaw Szymanski",
           "role": "Head of Operations",
           "department": "Operations",
           "active": true,
           "links": {
-            "linkedin": "https://www.linkedin.com/in/gabrielemarmo/",
+            "linkedin": "www.linkedin.com/in/stanislaw-szymanski-63a426261",
             "website": ""
           }
         },
@@ -56,11 +56,11 @@
       "borderClass": "border-accent-magenta",
       "description": "Growth is crafting the narrative of Milan's startup scene through design and storytelling, while finding creative and fun ways to engage our ecosystem, communicate START Milan's values, vision, and happenings, and build strong connections with students, industry partners, universities, and other initiatives.",
       "lead": {
-        "name": "Oliwia Piecuch",
+        "name": "Milda Jonikaitė",
         "role": "Head of Growth",
-        "img": "photos_starties/Oliwia.jpg",
+        "img": "photos_starties/milda-jonikaite.jpeg",
         "links": {
-          "linkedin": "https://www.linkedin.com/in/oliwia-piecuch/",
+          "linkedin": "https://www.linkedin.com/in/milda-jonikaitė/?skipRedirect=true",
           "website": ""
         }
       },
@@ -109,13 +109,13 @@
       "glowClass": "node-glow-gold",
       "textClass": "text-accent-gold",
       "borderClass": "border-accent-gold",
-      "description": "Partnerships sviluppa relazioni strategiche e collaborazioni.",
+      "description": "Partnerships focuses on strategy and collaberations to grow START Milan.",
       "lead": {
-        "name": "Giorgia Giustizieri",
+        "name": "Alessandro De Simone",
         "role": "Head of Partnerships",
-        "img": "photos_starties/Giorgia.jpg",
+        "img": "photos_starties/alessandro-de-simone.jpeg",
         "links": {
-          "linkedin": "https://www.linkedin.com/in/giorgiagiustizieri/",
+          "linkedin": "https://www.linkedin.com/in/alessandrodesimone-/?skipRedirect=true",
           "website": ""
         }
       },
@@ -132,11 +132,11 @@
       "borderClass": "border-white/60",
       "description": "We find the raw diamonds in the Milan's startup ecosystem, work hard with you to take the next step in your entrepreneurial journey, and most importantly, we build a community that feels like a family!",
       "lead": {
-        "name": "Alexandra Dumitrache",
+        "name": "Alina Konig",
         "role": "Head of People",
-        "img": "photos_starties/Alexandra Dumitrache.jpg",
+        "img": "photos_starties/alina-konig.png",
         "links": {
-          "linkedin": "https://www.linkedin.com/in/alexandra-dumitrache/",
+          "linkedin": "https://www.linkedin.com/in/alina-koenig/?skipRedirect=true",
           "website": ""
         }
       },
