@@ -21,18 +21,6 @@
       "pos": { "x": 50, "y": 80 },
       "people": [
         {
-          "img": "photos_starties/stanislaw-szymanski.jpeg",
-          "size": 24,
-          "name": "Stanislaw Szymanski",
-          "role": "Head of Operations",
-          "department": "Operations",
-          "active": true,
-          "links": {
-            "linkedin": "www.linkedin.com/in/stanislaw-szymanski-63a426261",
-            "website": ""
-          }
-        },
-        {
           "img": "photos_starties/andrea.jpg",
           "size": 28,
           "name": "Andrea Veneroni",
