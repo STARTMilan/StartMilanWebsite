@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>START Milan | Future of Student Entrepreneurship</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#05c3de",
+                        "accent-purple": "#003087",
+                        "accent-gold": "#83af9b",
+                        "background-light": "#001e62",
+                        "background-dark": "#00002c",
+                        "card-dark": "#00002c",
+                    },
+                    fontFamily: {
+                        "display": ["Prompt", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        @layer base {
+            body {
+                font-family: 'Prompt', sans-serif;
+            }
+        }
+        
+        .glass {
+            background: rgba(0, 0, 44, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(to right, #05c3de, #003087);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bento-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .bento-card:hover {
+            border-color: rgba(5, 195, 222, 0.5);
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0, 0, 44, 0.4), 0 0 20px rgba(5, 195, 222, 0.15);
+        }
+        
+        .dept-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .dept-card:hover {
+            background: linear-gradient(145deg, rgba(5, 195, 222, 0.05) 0%, rgba(0, 48, 135, 0.05) 100%);
+            border-color: rgba(5, 195, 222, 0.3);
+        }
+        
+        .grid-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        
+        .mesh-line {
+            filter: drop-shadow(0 0 4px currentColor);
+        }
+        
+        .network-city-track {
+            animation: networkScroll 18s linear infinite;
+        }
+        
+        .faq-answer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease, opacity 0.35s ease;
+            opacity: 0.6;
+        }
+        
+        details[open] .faq-answer {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+        
+        .faq-answer>div {
+            overflow: hidden;
+        }
+        
+        @keyframes networkScroll {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-50%);
+            }
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link href="magic-bento.css" rel="stylesheet" />
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-white dark:text-white antialiased selection:bg-primary/30">
+    <header class="fixed top-0 w-full z-50 glass border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a class="flex items-center" href="index.html">
+                <img src="Logo_white.png" alt="START Milan logo" style="height: 83px; width: auto;" />
+            </a>
+            <nav class="hidden md:flex items-center gap-6">
+                <a class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity" href="community.html">Our
+                    Team</a>
+                <a class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity" href="ventures.html">Ecosystem Map</a>
+                <a class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity" href="startSummit.html">Road to START Summit</a>
+                <a class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity" href="for-students.html">For Students</a>
+                <a class="text-sm font-medium opacity-70 hover:opacity-100 transition-opacity" href="for-ecosystem-players.html">For Partners</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <a href="mailto:contact@startmilan.com" class="px-5 py-2.5 rounded-lg bg-primary text-background-dark font-bold text-sm hover:brightness-110 transition-all shadow-[0_0_20px_rgba(5, 195, 222, 0.3)]">
+                    Contact us
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="pt-20">
+        <section class="relative min-h-[92vh] flex items-center overflow-hidden px-6 py-14">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-purple/20 rounded-full blur-[120px]">
+                </div>
+            </div>
+            <div class="relative z-10 max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-semibold tracking-widest uppercase mb-8">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                        </span>
+                        Empowering Next-Gen Founders
+                    </div>
+                    <h1 class="text-6xl md:text-[9.5rem] font-black tracking-tighter leading-[0.88] mb-8">
+                        DARE <span class="text-gradient">BUILD</span> BELONG
+                    </h1>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 max-w-xl">
+                        <a href="#ready-to-join" class="w-full sm:w-auto px-10 py-5 rounded-xl bg-primary text-background-dark font-bold text-xl hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                            Get Started <span class="material-symbols-outlined">arrow_forward</span>
+                        </a>
+                        <a href="#future-experiences" class="w-full sm:w-auto px-10 py-5 rounded-xl glass font-bold text-xl hover:bg-white/10 transition-colors flex items-center justify-center text-center">
+                            Explore Events
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-6">
+                    <div data-magic-bento="true" class="glass rounded-[2rem] p-6 md:p-8 border border-primary/20 shadow-[0_20px_60px_rgba(0,0,44,0.45)]">
+                        <p class="opacity-80 leading-relaxed mb-7">We’re a part of the sprawling START Network. This interconnection multiplies our potential across the world, allowing us to draw inspiration from diverse cultures, share insights, and create an ecosystem that nurtures collective
+                            progress.
+                        </p>
+                        <div class="grid grid-cols-3 gap-4 mb-7">
+                            <div class="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
+                                <p class="text-3xl font-black text-primary">22</p>
+                                <p class="text-xs uppercase tracking-wider opacity-60">Cities</p>
+                            </div>
+                            <div class="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
+                                <p class="text-3xl font-black text-primary">17</p>
+                                <p class="text-xs uppercase tracking-wider opacity-60">Countries</p>
+                            </div>
+                            <div class="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
+                                <p class="text-3xl font-black text-primary">+1000</p>
+                                <p class="text-xs uppercase tracking-wider opacity-60">Members</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.2em] text-primary font-bold mb-3">global-community
+                            </p>
+                            <div class="h-36 overflow-hidden relative rounded-xl border border-white/10 bg-white/5 px-4">
+                                <div class="network-city-track py-3">
+                                    <p class="text-xl font-black">Barcelona</p>
+                                    <p class="text-xl font-black">Lisbon</p>
+                                    <p class="text-xl font-black">maastricht</p>
+                                    <p class="text-xl font-black">nuremberg</p>
+                                    <p class="text-xl font-black">Lausanne</p>
+                                    <p class="text-xl font-black">Vaduz</p>
+                                    <p class="text-xl font-black">Helsinki</p>
+                                    <p class="text-xl font-black">berlin</p>
+                                    <p class="text-xl font-black">st. gallen</p>
+                                    <p class="text-xl font-black">stuttgart</p>
+                                    <p class="text-xl font-black">hamburg</p>
+                                    <p class="text-xl font-black">paris</p>
+                                    <p class="text-xl font-black">Bogotá</p>
+                                    <p class="text-xl font-black">Quito</p>
+                                    <p class="text-xl font-black">Lima</p>
+                                    <p class="text-xl font-black">munich</p>
+                                    <p class="text-xl font-black">Barcelona</p>
+                                    <p class="text-xl font-black">Lisbon</p>
+                                    <p class="text-xl font-black">maastricht</p>
+                                    <p class="text-xl font-black">nuremberg</p>
+                                    <p class="text-xl font-black">Lausanne</p>
+                                    <p class="text-xl font-black">Vaduz</p>
+                                    <p class="text-xl font-black">Helsinki</p>
+                                    <p class="text-xl font-black">berlin</p>
+                                    <p class="text-xl font-black">st. gallen</p>
+                                    <p class="text-xl font-black">stuttgart</p>
+                                    <p class="text-xl font-black">hamburg</p>
+                                    <p class="text-xl font-black">paris</p>
+                                    <p class="text-xl font-black">Bogotá</p>
+                                    <p class="text-xl font-black">Quito</p>
+                                    <p class="text-xl font-black">Lima</p>
+                                    <p class="text-xl font-black">munich</p>
+                                </div>
+                                <div class="absolute inset-x-0 top-0 h-7 bg-gradient-to-b from-background-dark to-transparent">
+                                </div>
+                                <div class="absolute inset-x-0 bottom-0 h-7 bg-gradient-to-t from-background-dark to-transparent">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-6 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                <div class="glass p-8 rounded-2xl text-center relative overflow-hidden group">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary/40 rounded-b-full transition-all group-hover:w-full">
+                    </div>
+                    <p class="text-4xl md:text-5xl font-black mb-2 text-primary">1000+</p>
+                    <p class="text-xs uppercase tracking-widest font-bold opacity-50">Active Members</p>
+                </div>
+                <div class="glass p-8 rounded-2xl text-center relative overflow-hidden group">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-accent-purple/40 rounded-b-full transition-all group-hover:w-full">
+                    </div>
+                    <p class="text-4xl md:text-5xl font-black mb-2 text-white">7000+</p>
+                    <p class="text-xs uppercase tracking-widest font-bold opacity-50">Partner Agencies Worldwide</p>
+                </div>
+                <div class="glass p-8 rounded-2xl text-center relative overflow-hidden group">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary/40 rounded-b-full transition-all group-hover:w-full">
+                    </div>
+                    <p class="text-4xl md:text-5xl font-black mb-2 text-primary">40000+</p>
+                    <p class="text-xs uppercase tracking-widest font-bold opacity-50">Network Social Media Followers</p>
+                </div>
+                <div class="glass p-8 rounded-2xl text-center relative overflow-hidden group">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-accent-purple/40 rounded-b-full transition-all group-hover:w-full">
+                    </div>
+                    <p class="text-4xl md:text-5xl font-black mb-2 text-white">2B+</p>
+                    <p class="text-xs uppercase tracking-widest font-bold opacity-50">Raised by Alumni Startups</p>
+                </div>
+            </div>
+        </section>
+        <section id="future-experiences" class="max-w-7xl mx-auto px-6 py-24">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl font-bold mb-4">Future Experiences</h2>
+                    <p class="opacity-50 text-lg">I prossimi appuntamenti per founder, hacker e builders.</p>
+                </div>
+
+            </div>
+            <div class="glass rounded-2xl p-10 text-center">
+                <p class="text-lg opacity-60">No upcoming events published yet.</p>
+            </div>
+        </section>
+        <section id="past-experiences" class="max-w-7xl mx-auto px-6 py-24">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl font-bold mb-4">Past Experiences</h2>
+                    <p class="opacity-50 text-lg">Gli eventi che hanno gia segnato il percorso della community.</p>
+                </div>
+
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <a href="startSummit.html" class="md:col-span-2 bento-card glass rounded-2xl overflow-hidden group relative block">
+                    <div class="h-80 relative overflow-hidden">
+                        <img alt="Conference event" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA74GE9lUx95rsZF5cv4Jhyrt7zf-4xXyXvBQogyCgAQE6SpYjYyptMM3JXPfHDkJyb49ssQScgPPpe1TIVK8NNoStiQooz9uRrJWKGRgkMX_5IZOxTtCVLAbpKNuIfdnom1jgOQuyMOtHmIpNrDYI7528jLcxYfyS7LCoa3DUeIdpoNtnA5FDnHOLgRqJ0jE7e1zCf-tbE8BkXS6DMtUo0iJ4VLmALrNC1qolm9q-7xJzsWcdLrqmEMhm3VElHgC4hOZSWd5ZknyE"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/20 to-transparent">
+                        </div>
+                    </div>
+                    <div class="p-8 relative -mt-20">
+                        <div class="flex gap-3 mb-4">
+                            <span class="px-3 py-1 rounded bg-accent-gold text-background-dark text-xs font-black uppercase">Flagship
+                                Recap</span>
+                            <span class="px-3 py-1 rounded glass text-xs font-bold uppercase">March 2026</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Road to START Summit 2026</h3>
+                        <p class="opacity-70 mb-6 max-w-lg leading-relaxed">
+                            Una serata sold-out con founder e investitori internazionali: connessioni reali, pitch live e accesso diretto all'ecosistema START.
+                        </p>
+                        <button class="px-6 py-3 rounded-lg border border-primary/50 text-primary font-bold hover:bg-primary hover:text-background-dark transition-all">
+                            View Recap
+                        </button>
+                    </div>
+                </a>
+                <a href="https://luma.com/z0iqp75s" target="_blank" rel="noopener noreferrer" class="bento-card glass rounded-2xl flex flex-col group overflow-hidden">
+                    <div class="h-48 relative overflow-hidden rounded-t-2xl">
+                        <img alt="START Milan RECRUITMENT APERITIVO - Cover" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=1350&q=80" />
+                        <div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="p-8 flex-1">
+                        <span class="text-xs font-black uppercase tracking-widest mb-2 block">Hosted By <strong>START
+                                Milan</strong></span>
+                        <span class="inline-block px-3 py-1 rounded bg-accent-purple/10 text-accent-purple text-xs font-bold uppercase tracking-widest mb-3">Tech</span>
+                        <h3 class="text-xl font-bold mb-3">START Milan RECRUITMENT APERITIVO</h3>
+                        <div class="text-sm opacity-60 mb-4">
+                            <strong>Feb 24</strong><br /> Tuesday, February 24<br /> 7:00 PM - 9:00 PM<br />
+                            <strong>Madison</strong><br /> Milano, Lombardia
+                        </div>
+                        <div class="text-xs opacity-60 italic mb-4">Past event recap available.</div>
+                        <div class="mt-auto flex justify-between items-center pt-4 border-t border-white/5">
+                            <span class="text-xs font-medium opacity-50">Event details</span>
+                            <span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_outward</span>
+                        </div>
+                    </div>
+                </a>
+                <!--
+<div class="bento-card glass rounded-2xl p-8 group flex flex-col justify-between">
+<div>
+<div class="size-12 rounded-xl bg-accent-purple/20 flex items-center justify-center mb-6 text-accent-purple">
+<span class="material-symbols-outlined font-bold">restaurant</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Founders Dinner</h3>
+<p class="text-sm opacity-60 leading-relaxed">
+                        An intimate evening with Milan's most successful entrepreneurs and local venture capitalists.
+                    </p>
+</div>
+<div class="flex flex-col gap-4 mt-8">
+<div class="flex -space-x-3">
+<img alt="User 1" class="size-10 rounded-full border-2 border-background-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXNBhZgOGw45AFovRvkdTp5G57DEVGmU1nVe1RuQVRncvra21dcbYUM74H1sy3C558AUGjUbx0XF8gbVO1-AkT978iiPGA5Vl91FLG_ApKqU58rWwKs4v1xz3Px81COVeOFTmcYwwBR-7z_DciJrA8V_20ZUtTIoxOZARsk4flKOJi1WYJyjqrA4lhOiqkq5546Wo7rb5Rthyfz_OEAy1ekPgagBjz24gAhKtCPY_jkvnEMZEg18X-qwcjJtCflNe78hDaotjPMi0"/>
+<img alt="User 2" class="size-10 rounded-full border-2 border-background-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS5xxW1YKWQ5yN_XzeFtm0z8xqVO8wRH435BN3Vv_GVQZgehh2Agh5U3GyfsYtQnU-ScTHe-kI4EvNBcUG7HbyVXpXgFAlen47eM0I_CbcPZlFgvnodsAzTGT0LeCij0GI6WJSjLXu9aH7OXTKHtN1A2M3MwO4vrXlGsQcLfTmt8dlkZdZLHruhBGAg9DHi8LkzZN3fjfhE_FDKWog88kS-isPJY7uYtLYwpkNjqzq1rrVKsdkkUCp0ABoM2lkPmyedtPkYjTtC1w"/>
+<img alt="User 3" class="size-10 rounded-full border-2 border-background-dark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSQ6vmJBBNbA6tFFukSQvrdR3NV4Wg6PSyLFqNcoPUSj-1StpH_huQNr0btyQMpJLKfkIZKYNm5HnNiu2fW9oPyFqodBX0XPn3B_i17FA1O2mc3kqCqw1UeVPbVCSuKtyJ8LxR-a4l9iE7BqR6CnGtRzZ0EuluqaEylDjwgBqOI9TH6m1_o30Ep-ekbcwNi5PBm-nG-j0rFKNxkCE0-pLXUFQRuQid2DOv3cMesdZ0ugOZP44dwyhDalfg3hMF4ytMNDHURZCXJrs"/>
+<div class="size-10 rounded-full glass border-2 border-background-dark flex items-center justify-center text-[10px] font-bold">
+                            +12
+                        </div>
+</div>
+<p class="text-xs opacity-40">Only 5 spots left</p>
+</div>
+</div>
+-->
+                <!--
+<div class="md:col-span-2 bento-card glass rounded-2xl p-8 flex flex-col md:flex-row gap-8 items-center bg-gradient-to-br from-card-dark to-[#001e62]">
+<div class="md:w-1/3 text-center md:text-left">
+<span class="text-xs font-bold text-accent-purple uppercase tracking-widest block mb-2">Podcast</span>
+<h3 class="text-2xl font-bold mb-4">The START Milan Podcast</h3>
+<p class="text-sm opacity-60 mb-6 leading-relaxed">
+                        Weekly insights from the heart of the Italian startup scene. Available on all platforms.
+                    </p>
+<button class="text-sm font-bold flex items-center gap-2 opacity-80 hover:opacity-100 mx-auto md:mx-0">
+                        Listen Now <span class="material-symbols-outlined text-xs">open_in_new</span>
+</button>
+</div>
+<div class="md:w-2/3 grid grid-cols-3 gap-4">
+<div class="aspect-square glass rounded-xl overflow-hidden group">
+<img alt="Podcast" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcBPL-V7v72ONlZJ0RncNgaeVnLXvepkMHwzRYaF1W1c7lbwVOtg_KApn19CB6xvOv1acwd_u7uQy9EKAKsiN0gCJKaf4LU38QIaoR8aQfhwsAQjKo2lQbOSZ5V-Ec8Re8NooqijymveM9lIWUvUkBUvhgXYn5ass0_eP81ibozI0KMGKXd-uv2yQVRq9vi9v7G_RjPV4lBJwdbC0EcD-iMcYVllLgAWPbGo2LQxNkbQ730B90JivH2FQZEhk37hXCM759y9dYymA"/>
+</div>
+<div class="aspect-square glass rounded-xl overflow-hidden group">
+<img alt="Studio" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZKJC40r2xycbNQHaQaQxEjM4L9KoZDOOiq0pzOIuvjeFEMXYqNlSgHR5PI4o28otfu_RhaFrsvT0o2lNzVcfaB1hrp7l1aDwYtG-7Ui8ok2trIm9DjdUox4KkyWrFo5kPudY3yoWyL3lsHPpgOXiX7f6WvPGkHHFs7z7sjA0cDYl5Bx9cnIPn0HDsllibcehnOlDP5YeV2Ug0YQ3tDAM52tsGNWLRO-gYq5_IbEAJuiCHxN1BwHF5eR-tbJ8-SSdf_SdWwc7OQ"/>
+</div>
+<div class="aspect-square glass rounded-xl overflow-hidden group">
+<img alt="Speakers" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIdYvOCvfuvBeeBzUIiOa1-vEdA1eoqXUvQ-5dpWh0wPVSh2KwC0qW1_o1IMvdqxIWuBa8mxEV-HeeZUGCcoMK6eZ5fEBngy-2CqC9bISBnhNFk16lZYm_0pmaGKmQ5ebNk8nyRmZQDwjtpHX96nbGLhosjYfUMVG8gf9XpoFrLurYTve0g5GlWhruFyxKVzBB4uZYQl1zY1N-NwG53DkTMVEPvOIKsdRVbOJv5KQ0IJAtu_MdgIWFE3po0gWk3s1og4amncQc7N0"/>
+</div>
+</div>
+</div>
+</section>
+-->
+        </section>
+        <section class="max-w-7xl mx-auto px-6 py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a class="bento-card glass relative rounded-[2.5rem] overflow-hidden group h-[500px] flex flex-col" href="ventures.html">
+                    <div class="absolute inset-0 grid-bg opacity-40"></div>
+                    <div class="absolute inset-0 flex items-center justify-center p-12 overflow-hidden pointer-events-none">
+                        <div class="relative w-full h-full flex items-center justify-center rotate-12 group-hover:rotate-[8deg] transition-transform duration-700">
+                            <div class="absolute inset-0 bg-primary/5 rounded-full blur-[100px]"></div>
+                            <div class="relative w-48 h-72 bg-background-dark border border-white/10 rounded-full flex items-center justify-center shadow-2xl">
+                                <div class="absolute top-1/4 left-1/2 -translate-x-1/2 size-3 bg-primary rounded-full shadow-[0_0_15px_#05c3de] animate-pulse">
+                                </div>
+                                <div class="absolute top-1/2 left-1/3 size-2 bg-primary/80 rounded-full shadow-[0_0_10px_#05c3de]">
+                                </div>
+                                <div class="absolute bottom-1/4 right-1/3 size-2 bg-primary/80 rounded-full shadow-[0_0_10px_#05c3de]">
+                                </div>
+                                <svg class="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 100 100">
+                                    <path class="mesh-line" d="M 50 25 Q 35 50 33 50" fill="none" stroke="#05c3de"
+                                        stroke-width="0.5"></path>
+                                    <path class="mesh-line" d="M 50 25 Q 65 50 67 75" fill="none" stroke="#05c3de"
+                                        stroke-width="0.5"></path>
+                                </svg>
+                            </div>
+                            <div class="absolute top-10 right-20 size-20 border border-primary/20 rounded-xl rotate-45 group-hover:scale-125 transition-transform duration-500">
+                            </div>
+                            <div class="absolute bottom-10 left-20 size-32 border border-white/5 rounded-full group-hover:scale-110 transition-transform duration-700">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-auto p-12 relative z-50 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent">
+                        <span class="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4">Portfolio</span>
+                        <h3 class="text-4xl md:text-5xl font-black tracking-tight mb-4 group-hover:text-primary transition-colors">
+                            Discover Milan's <br />ecosystem</h3>
+                        <p class="text-lg opacity-60 max-w-sm mb-8">Exploring the most disruptive startups founded by the START Milan community.</p>
+                        <div class="flex items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            Explore Catalog <span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform">trending_flat</span>
+                        </div>
+                    </div>
+                </a>
+                <a class="bento-card glass relative rounded-[2.5rem] overflow-hidden group h-[500px] flex flex-col" href="community.html">
+                    <div class="absolute inset-0 flex items-center justify-center p-8 overflow-hidden pointer-events-none">
+                        <div class="relative w-full h-full">
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-20 rounded-full glass border border-primary/30 flex items-center justify-center z-20 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-primary text-3xl font-bold">hub</span>
+                            </div>
+                            <div class="absolute top-1/4 left-1/4 size-12 rounded-full glass border border-accent-purple/30 flex items-center justify-center z-20">
+                                <span class="material-symbols-outlined text-accent-purple">campaign</span>
+                            </div>
+                            <div class="absolute bottom-1/4 right-1/4 size-12 rounded-full glass border border-accent-gold/30 flex items-center justify-center z-20">
+                                <span class="material-symbols-outlined text-accent-gold">payments</span>
+                            </div>
+                            <div class="absolute top-1/3 right-1/4 size-12 rounded-full glass border border-primary/30 flex items-center justify-center z-20">
+                                <span class="material-symbols-outlined text-primary">code</span>
+                            </div>
+                            <svg class="absolute inset-0 w-full h-full opacity-60" viewBox="0 0 100 100">
+                                <line class="mesh-line opacity-50" stroke="#003087" stroke-width="0.5" x1="50" x2="25"
+                                    y1="50" y2="25"></line>
+                                <line class="mesh-line opacity-50" stroke="#83af9b" stroke-width="0.5" x1="50" x2="75"
+                                    y1="50" y2="75"></line>
+                                <line class="mesh-line opacity-50" stroke="#05c3de" stroke-width="0.5" x1="50" x2="75"
+                                    y1="50" y2="33"></line>
+                            </svg>
+                            <img alt="Member" class="absolute top-10 left-1/2 size-10 rounded-full border border-white/20 object-cover opacity-60 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXNBhZgOGw45AFovRvkdTp5G57DEVGmU1nVe1RuQVRncvra21dcbYUM74H1sy3C558AUGjUbx0XF8gbVO1-AkT978iiPGA5Vl91FLG_ApKqU58rWwKs4v1xz3Px81COVeOFTmcYwwBR-7z_DciJrA8V_20ZUtTIoxOZARsk4flKOJi1WYJyjqrA4lhOiqkq5546Wo7rb5Rthyfz_OEAy1ekPgagBjz24gAhKtCPY_jkvnEMZEg18X-qwcjJtCflNe78hDaotjPMi0"
+                            />
+                            <img alt="Member" class="absolute bottom-20 left-1/4 size-8 rounded-full border border-white/20 object-cover opacity-40 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS5xxW1YKWQ5yN_XzeFtm0z8xqVO8wRH435BN3Vv_GVQZgehh2Agh5U3GyfsYtQnU-ScTHe-kI4EvNBcUG7HbyVXpXgFAlen47eM0I_CbcPZlFgvnodsAzTGT0LeCij0GI6WJSjLXu9aH7OXTKHtN1A2M3MwO4vrXlGsQcLfTmt8dlkZdZLHruhBGAg9DHi8LkzZN3fjfhE_FDKWog88kS-isPJY7uYtLYwpkNjqzq1rrVKsdkkUCp0ABoM2lkPmyedtPkYjTtC1w"
+                            />
+                            <img alt="Member" class="absolute top-1/2 right-10 size-12 rounded-full border border-white/20 object-cover opacity-50 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSQ6vmJBBNbA6tFFukSQvrdR3NV4Wg6PSyLFqNcoPUSj-1StpH_huQNr0btyQMpJLKfkIZKYNm5HnNiu2fW9oPyFqodBX0XPn3B_i17FA1O2mc3kqCqw1UeVPbVCSuKtyJ8LxR-a4l9iE7BqR6CnGtRzZ0EuluqaEylDjwgBqOI9TH6m1_o30Ep-ekbcwNi5PBm-nG-j0rFKNxkCE0-pLXUFQRuQid2DOv3cMesdZ0ugOZP44dwyhDalfg3hMF4ytMNDHURZCXJrs"
+                            />
+                            <img alt="Member" class="absolute bottom-10 right-1/3 size-10 rounded-full border border-white/20 object-cover opacity-30 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY"
+                            />
+                        </div>
+                    </div>
+                    <div class="mt-auto p-12 relative z-50 bg-gradient-to-t from-background-dark/90 via-background-dark/40 to-transparent">
+                        <span class="inline-block px-3 py-1 rounded-full bg-accent-purple/10 border border-accent-purple/20 text-accent-purple text-xs font-bold uppercase tracking-widest mb-4">Community</span>
+                        <h3 class="text-4xl md:text-5xl font-black tracking-tight mb-4 group-hover:text-accent-purple transition-colors">
+                            Explore Our <br />Full Team</h3>
+                        <p class="text-lg opacity-60 max-w-sm mb-8">Meet the collective of 150+ students driving the innovation engine forward.</p>
+                        <div class="flex items-center gap-3 text-sm font-bold uppercase tracking-widest">
+                            Meet the Collective <span class="material-symbols-outlined text-accent-purple group-hover:translate-x-2 transition-transform">trending_flat</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-6 py-24">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">Meet the Visionaries</h2>
+                <p class="opacity-50 text-lg max-w-xl mx-auto">The student board driving the revolution of Milan's entrepreneurship ecosystem.</p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div class="group">
+                    <div class="aspect-square rounded-xl overflow-hidden glass mb-2 relative grayscale hover:grayscale-0 transition-all duration-500 border border-white/5">
+                        <img alt="Team 1" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-500" src="https://cdn.prod.website-files.com/689a1f4c60fbd9d3e549f45b/68b2d2915e7a01df0b41c234_GG.jpg" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60">
+                        </div>
+                    </div>
+                    <h4 class="text-sm font-bold">Giorgia Giustizieri</h4>
+                    <p class="text-[10px] text-primary font-medium uppercase tracking-widest">MD Partnership</p>
+                    <div class="flex gap-2 mt-1 justify-center">
+                        <a class="opacity-40 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/in/giorgia-giustizieri-936960221/" target="_blank" rel="noopener noreferrer"><svg class="size-6 fill-white" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-square rounded-xl overflow-hidden glass mb-2 relative grayscale hover:grayscale-0 transition-all duration-500 border border-white/5">
+                        <img alt="Team 2" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-500" src="https://cdn.prod.website-files.com/689a1f4c60fbd9d3e549f45b/68cac2800cb0570f97fd8949_Profile%20Pictures%20(3).png" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60">
+                        </div>
+                    </div>
+                    <h4 class="text-sm font-bold">Austeja Lazar</h4>
+                    <p class="text-[10px] text-primary font-medium uppercase tracking-widest">Vice President</p>
+                    <div class="flex gap-2 mt-1 justify-center">
+                        <a class="opacity-40 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/in/austejalazar/" target="_blank" rel="noopener noreferrer"><svg class="size-6 fill-white" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-square rounded-xl overflow-hidden glass mb-2 relative grayscale hover:grayscale-0 transition-all duration-500 border border-white/5">
+                        <img alt="Team 3" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-500" src="https://cdn.prod.website-files.com/689a1f4c60fbd9d3e549f45b/68cac1f28e6fae0eae4ddffa_Profile%20Pictures.png" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60">
+                        </div>
+                    </div>
+                    <h4 class="text-sm font-bold">Gabriele Marmo</h4>
+                    <p class="text-[10px] text-primary font-medium uppercase tracking-widest">President & MD Operations
+                    </p>
+                    <div class="flex gap-2 mt-1 justify-center">
+                        <a class="opacity-40 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/in/gabrielemarmo" target="_blank" rel="noopener noreferrer"><svg class="size-6 fill-white" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-square rounded-xl overflow-hidden glass mb-2 relative grayscale hover:grayscale-0 transition-all duration-500 border border-white/5">
+                        <img alt="Team 4" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-500" src="https://cdn.prod.website-files.com/689a1f4c60fbd9d3e549f45b/68fe39d1a03f2108b26ab722_mw.png" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60">
+                        </div>
+                    </div>
+                    <h4 class="text-sm font-bold">Maciej Wojciechowski</h4>
+                    <p class="text-[10px] text-primary font-medium uppercase tracking-widest">MD Events</p>
+                    <div class="flex gap-2 mt-1 justify-center">
+                        <a class="opacity-40 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/in/maciej-wojciechowski-aa5601290/" target="_blank" rel="noopener noreferrer"><svg class="size-6 fill-white" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-square rounded-xl overflow-hidden glass mb-2 relative grayscale hover:grayscale-0 transition-all duration-500 border border-white/5">
+                        <img alt="Team 5" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-500" src="https://cdn.prod.website-files.com/689a1f4c60fbd9d3e549f45b/6941842d0cae99ec44f2950f_ow2.png" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60">
+                        </div>
+                    </div>
+                    <h4 class="text-sm font-bold">Oliwia Piecuch</h4>
+                    <p class="text-[10px] text-primary font-medium uppercase tracking-widest">MD Growth</p>
+                    <div class="flex gap-2 mt-1 justify-center">
+                        <a class="opacity-40 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/in/oliwia-piecuch/" target="_blank" rel="noopener noreferrer"><svg class="size-6 fill-white" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                            </svg></a>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-square rounded-xl overflow-hidden glass mb-2 relative grayscale hover:grayscale-0 transition-all duration-500 border border-white/5">
+                        <img alt="Team 6" class="w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-500" src="https://cdn.prod.website-files.com/689a1f4c60fbd9d3e549f45b/68fe38108625cb912e6ee472_AD.jpg" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-60">
+                        </div>
+                    </div>
+                    <h4 class="text-sm font-bold">Alexandra Dumitache</h4>
+                    <p class="text-[10px] text-primary font-medium uppercase tracking-widest">MD People</p>
+                    <div class="flex gap-2 mt-1 justify-center">
+                        <a class="opacity-40 hover:opacity-100 transition-opacity" href="https://www.linkedin.com/in/alexandra-dumitrache/" target="_blank" rel="noopener noreferrer"><svg class="size-6 fill-white" viewBox="0 0 24 24">
+                                <path
+                                    d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                            </svg></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-6 py-24 bg-[#00002c]/50 rounded-[3rem]">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">Our <span class="text-primary">Departments</span></h2>
+                <p class="opacity-50 text-lg max-w-2xl mx-auto">The internal engines that power the ecosystem. Choose your path and help us build.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <a href="community.html?dept=operations" class="dept-card rounded-3xl p-8 relative overflow-hidden group md:col-span-3 cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-30 transition-opacity">
+                        <span class="material-symbols-outlined text-8xl text-primary">terminal</span>
+                    </div>
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <div>
+                            <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
+                                <span class="material-symbols-outlined text-primary">code</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3">Operations</h3>
+                            <p class="text-sm opacity-60 leading-relaxed">
+                                The Operations department is the backbone of our organization, building the digital backbone of our community, from our platform to hackathon tools and internal automation, while ensuring our processes run smoothly and positioning START Milan for long-term
+                                success financially, legally, and operationally.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-xs font-bold text-primary tracking-widest uppercase">Building Future
+                                Tools</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="community.html?dept=partnerships" class="dept-card rounded-3xl p-8 relative overflow-hidden group md:col-span-3 cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="absolute -bottom-4 -right-4 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
+                        <span class="material-symbols-outlined text-[10rem] text-accent-purple">handshake</span>
+                    </div>
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <div>
+                            <div class="size-12 rounded-xl bg-accent-purple/10 flex items-center justify-center mb-6 border border-accent-purple/20">
+                                <span class="material-symbols-outlined text-accent-purple">business_center</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3">Partnerships</h3>
+                            <p class="text-sm opacity-60 leading-relaxed max-w-md">
+                                The bridge between our talent and the corporate world. Managing partnerships with VCs, accelerators, and tech giants.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-xs font-bold text-accent-purple tracking-widest uppercase">Global
+                                Partnerships</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="community.html?dept=growth" class="dept-card rounded-3xl p-8 group md:col-span-2 cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="h-full flex flex-col justify-between">
+                        <div>
+                            <div class="size-12 rounded-xl bg-accent-purple/10 flex items-center justify-center mb-6 border border-accent-purple/20">
+                                <span class="material-symbols-outlined text-accent-purple">campaign</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Growth</h3>
+                            <p class="text-sm opacity-60 leading-relaxed">
+                                Growth is crafting the narrative of Milan’s startup scene through design and storytelling, while finding creative and fun ways to engage our ecosystem, communicate START Milan’s values, vision, and happenings, and build strong connections with students,
+                                industry partners, universities, and other initiatives.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 mt-4">
+                            <span class="text-xs opacity-40">Creative Hub</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="community.html?dept=events" class="dept-card rounded-3xl p-8 group md:col-span-2 cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="h-full flex flex-col justify-between">
+                        <div>
+                            <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
+                                <span class="material-symbols-outlined text-primary">event_seat</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Events</h3>
+                            <p class="text-sm opacity-60 leading-relaxed">
+                                Our events are the key to a strong community and an active network. By organizing diverse events we tailor to the interests of our members, thus provide an opportunity to gain new knowledge, skills and experiences that promote growth and innovation.
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 mt-4">
+                            <span class="text-xs opacity-40">Experience Design</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="community.html?dept=people" class="dept-card rounded-3xl p-8 group md:col-span-2 cursor-pointer hover:scale-[1.02] transition-transform">
+                    <div class="h-full flex flex-col justify-between">
+                        <div>
+                            <div class="size-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20">
+                                <span class="material-symbols-outlined text-primary">groups_3</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">People</h3>
+                            <p class="text-sm opacity-60 leading-relaxed">
+                                We find the raw diamonds in the Milan's startup ecosystem, work hard with you to take the next step in your entrepreneurial journey, and most importantly, we build a community that feels like a family!
+                            </p>
+                        </div>
+                        <div class="pt-4 border-t border-white/5 mt-4">
+                            <span class="text-xs opacity-40">Community Growth</span>
+                        </div>
+                    </div>
+                </a>
+                <!--
+<div class="md:col-span-1 md:row-span-1 dept-card rounded-3xl p-8 group">
+<div class="h-full flex flex-col justify-between">
+<div>
+<div class="size-12 rounded-xl bg-accent-purple/10 flex items-center justify-center mb-6 border border-accent-purple/20">
+<span class="material-symbols-outlined text-accent-purple">payments</span>
+</div>
+<h3 class="text-xl font-bold mb-3">Finance</h3>
+<p class="text-sm opacity-60 leading-relaxed">
+                            Ensuring the sustainability and growth of our non-profit initiatives.
+                        </p>
+</div>
+<div class="pt-4 border-t border-white/5 mt-4">
+<span class="text-xs opacity-40">Legal &amp; Strategy</span>
+</div>
+</div>
+</div>
+-->
+            </div>
+        </section>
+        <section class="max-w-7xl mx-auto px-6 py-24">
+            <div class="max-w-4xl mx-auto">
+                <p class="text-xs uppercase tracking-[0.25em] text-primary font-bold mb-4">wanna learn more?</p>
+                <h2 class="text-4xl md:text-5xl font-black mb-10">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <details class="glass rounded-2xl p-6 group">
+                        <summary class="font-bold text-lg cursor-pointer list-none flex items-center justify-between">My background is not in business, can I still join?<span class="material-symbols-outlined text-primary group-open:rotate-45 transition-transform">add</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <div>
+                                <p class="opacity-70 leading-relaxed mt-4">Of course, our members come from a variety of fields, not just from business backgrounds.</p>
+                            </div>
+                        </div>
+                    </details>
+                    <details class="glass rounded-2xl p-6 group">
+                        <summary class="font-bold text-lg cursor-pointer list-none flex items-center justify-between">Do I have to have a startup to join?<span class="material-symbols-outlined text-primary group-open:rotate-45 transition-transform">add</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <div>
+                                <p class="opacity-70 leading-relaxed mt-4">No. You should have an intrinsic motivation towards entrepreneurship topics, a hands on mentality and willingness to learn.</p>
+                            </div>
+                        </div>
+                    </details>
+                    <details class="glass rounded-2xl p-6 group">
+                        <summary class="font-bold text-lg cursor-pointer list-none flex items-center justify-between">
+                            I’m not a student in Milan, can I still join START Milan?<span class="material-symbols-outlined text-primary group-open:rotate-45 transition-transform">add</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <div>
+                                <p class="opacity-70 leading-relaxed mt-4">No, to become a member, you need to be a student enrolled in one of the universities in Milan. You are, however, very welcome to join one of our public events or collaborate with us.</p>
+                            </div>
+                        </div>
+                    </details>
+                    <details class="glass rounded-2xl p-6 group">
+                        <summary class="font-bold text-lg cursor-pointer list-none flex items-center justify-between">
+                            How active is the community?<span class="material-symbols-outlined text-primary group-open:rotate-45 transition-transform">add</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <div>
+                                <p class="opacity-70 leading-relaxed mt-4">We prioritize an active and lively community by organizing over 20 events and community meetups, as well as working in smaller groups on various projects.</p>
+                            </div>
+                        </div>
+                    </details>
+                    <details class="glass rounded-2xl p-6 group">
+                        <summary class="font-bold text-lg cursor-pointer list-none flex items-center justify-between">
+                            How can I benefit from joining START Milan?<span class="material-symbols-outlined text-primary group-open:rotate-45 transition-transform">add</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <div>
+                                <p class="opacity-70 leading-relaxed mt-4">You will get immersed into the entrepreneurship ecosystem, and find a community of like-minded, highly motivated and inspiring students that quickly become good friends. We have frequent event formats where you will gain
+                                    new skills and insights and tackle hands-on challenges. As an active member you will join one of our departments, where you have additional opportunities to gain new skills and carry out projects.</p>
+                            </div>
+                        </div>
+                    </details>
+                    <details class="glass rounded-2xl p-6 group">
+                        <summary class="font-bold text-lg cursor-pointer list-none flex items-center justify-between">
+                            What are the tasks I have to do as a member?<span class="material-symbols-outlined text-primary group-open:rotate-45 transition-transform">add</span>
+                        </summary>
+                        <div class="faq-answer">
+                            <div>
+                                <p class="opacity-70 leading-relaxed mt-4">You will choose one of our departments to become an active member and take on different projects. By doing this, you will have a chance to practice proactive project management and execution, and develop new department
+                                    specific hard skills like building automations, designing a marketing campaign, partner acquisition, event organization or recruiting of new members.</p>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+        <section id="ready-to-join" class="max-w-7xl mx-auto px-6 py-24 mb-24">
+            <div data-magic-bento="true" class="relative overflow-hidden rounded-[2rem] p-12 md:p-24 bg-gradient-to-br from-[#001e62] to-background-dark border border-white/5 flex flex-col items-center text-center">
+                <div class="absolute -top-24 -right-24 size-96 bg-primary/20 blur-[100px]"></div>
+                <div class="absolute -bottom-24 -left-24 size-96 bg-accent-purple/20 blur-[100px]"></div>
+                <h2 class="text-4xl md:text-6xl font-black mb-8 max-w-2xl leading-tight">Ready to join our community?
+                </h2>
+                <p class="text-lg md:text-xl opacity-60 mb-12 max-w-xl">
+                    Apply to join our community and gain access to funding, mentorship, and a global network of innovators.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
+                    <a data-magic-bento="true" href="for-students.html" class="px-10 py-5 rounded-2xl bg-primary text-background-dark font-black text-xl shadow-[0_0_30px_rgba(5, 195, 222, 0.4)] hover:scale-105 hover:brightness-110 transition-all flex items-center justify-center">
+                        I'm a Student
+                    </a>
+                    <a data-magic-bento="true" href="for-ecosystem-players.html" class="px-10 py-5 rounded-2xl glass font-black text-xl hover:bg-white/10 transition-all flex items-center justify-center">
+                        I'm a Player in the Ecosystem
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-card-dark border-t border-white/5 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
+                <div class="md:col-span-1">
+                    <div class="mb-8">
+                        <img src="Logo_white.png" alt="START Milan logo" style="height: 69px; width: auto;" />
+                    </div>
+                    <p class="text-sm opacity-50 leading-relaxed">
+                        The leading student-led entrepreneurship hub in Milan. Connecting ambitious talent with global opportunities.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-sm uppercase tracking-widest">Ecosystem</h5>
+                    <ul class="space-y-4 opacity-50 text-sm">
+                        <li><a class="hover:text-primary transition-colors" href="startSummit.html">Start Summit</a>
+                        </li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Fellowship Program</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Hack Milan</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Venture Lab</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-sm uppercase tracking-widest">Community</h5>
+                    <ul class="space-y-4 opacity-50 text-sm">
+                        <li><a class="hover:text-primary transition-colors" href="#">Join Us</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Mentors</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Partnerships</a></li>
+                        <li><a class="hover:text-primary transition-colors" href="#">Student Board</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-sm uppercase tracking-widest">Connect</h5>
+                    <ul class="space-y-4 opacity-50 text-sm">
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="https://www.instagram.com/startmilan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram
+                                <span class="material-symbols-outlined text-xs">arrow_outward</span></a></li>
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="https://www.linkedin.com/company/start-milan/">LinkedIn <span
+                                    class="material-symbols-outlined text-xs">arrow_outward</span></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-6 text-sm uppercase tracking-widest">Policies and Legal</h5>
+                    <ul class="space-y-4 opacity-50 text-sm">
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="privacy-policy.html">Privacy Policy
+                                <span class="material-symbols-outlined text-xs">arrow_outward</span></a></li>
+                        <li><a class="hover:text-primary transition-colors flex items-center gap-2" href="legal-notice.html">Legal Notice
+                                <span class="material-symbols-outlined text-xs">arrow_outward</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between items-center pt-10 border-t border-white/5 opacity-30 text-xs">
+                <p>© 2024 START Milan. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/magic-bento.js"></script>
+</body>
+
+</html>

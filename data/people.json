@@ -1,0 +1,436 @@
+{
+  "departments": [
+    {
+      "id": "operations",
+      "label": "Operations",
+      "icon": "code",
+      "color": "#25c0f4",
+      "glowClass": "node-glow-cyan",
+      "textClass": "text-primary",
+      "borderClass": "border-primary",
+      "description": "The Operations department is the backbone of our organization, building the digital backbone of our community, from our platform to hackathon tools and internal automation, while ensuring our processes run smoothly and positioning START Milan for long-term success financially, legally, and operationally.",
+      "lead": {
+        "name": "Gabriele Marmo",
+        "role": "Head of Operations",
+        "img": "photos_starties/Gabriele.jpg",
+        "links": {
+          "linkedin": "https://www.linkedin.com/in/gabrielemarmo/",
+          "website": ""
+        }
+      },
+      "pos": { "x": 50, "y": 80 },
+      "people": [
+        {
+          "img": "photos_starties/Gabriele.jpg",
+          "size": 24,
+          "name": "Gabriele Marmo",
+          "role": "Head of Operations",
+          "department": "Operations",
+          "active": true,
+          "links": {
+            "linkedin": "https://www.linkedin.com/in/gabrielemarmo/",
+            "website": ""
+          }
+        },
+        {
+          "img": "photos_starties/andrea.jpg",
+          "size": 28,
+          "name": "Andrea Veneroni",
+          "role": "Operations",
+          "department": "Operations",
+          "active": true,
+          "links": {
+            "linkedin": "https://www.linkedin.com/in/andrea-veneroni-45b6622b3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+            "website": "https://andreaveneroni.netlify.app/"
+          }
+        }
+      ]
+    },
+    {
+      "id": "growth",
+      "label": "Growth",
+      "icon": "campaign",
+      "color": "#ff00ff",
+      "glowClass": "node-glow-magenta",
+      "textClass": "text-accent-magenta",
+      "borderClass": "border-accent-magenta",
+      "description": "Growth is crafting the narrative of Milan's startup scene through design and storytelling, while finding creative and fun ways to engage our ecosystem, communicate START Milan's values, vision, and happenings, and build strong connections with students, industry partners, universities, and other initiatives.",
+      "lead": {
+        "name": "Oliwia Piecuch",
+        "role": "Head of Growth",
+        "img": "photos_starties/Oliwia.jpg",
+        "links": {
+          "linkedin": "https://www.linkedin.com/in/oliwia-piecuch/",
+          "website": ""
+        }
+      },
+      "pos": { "x": 78, "y": 22 },
+      "people": []
+    },
+    {
+      "id": "events",
+      "label": "Events",
+      "icon": "event_seat",
+      "color": "#25c0f4",
+      "glowClass": "node-glow-cyan",
+      "textClass": "text-primary",
+      "borderClass": "border-primary",
+      "description": "Our events are the key to a strong community and an active network. By organizing diverse events we tailor to the interests of our members, thus provide an opportunity to gain new knowledge, skills and experiences that promote growth and innovation.",
+      "lead": {
+        "name": "Maciej Wojciechowski",
+        "role": "Head of Events",
+        "img": "photos_starties/maciej.jpg",
+        "links": {
+          "linkedin": "https://www.linkedin.com/in/maciej-wojciechowski-/",
+          "website": ""
+        }
+      },
+      "pos": { "x": 30, "y": 52 },
+      "people": [
+        {
+          "img": "photos_starties/maciej.jpg",
+          "size": 24,
+          "name": "Maciej Wojciechowski",
+          "role": "Head of Events",
+          "department": "Events",
+          "active": true,
+          "links": {
+            "linkedin": "https://www.linkedin.com/in/maciej-wojciechowski-/",
+            "website": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "partnerships",
+      "label": "Partnerships",
+      "icon": "handshake",
+      "color": "#ffd700",
+      "glowClass": "node-glow-gold",
+      "textClass": "text-accent-gold",
+      "borderClass": "border-accent-gold",
+      "description": "Partnerships sviluppa relazioni strategiche e collaborazioni.",
+      "lead": {
+        "name": "Giorgia Giustizieri",
+        "role": "Head of Partnerships",
+        "img": "photos_starties/Giorgia.jpg",
+        "links": {
+          "linkedin": "https://www.linkedin.com/in/giorgiagiustizieri/",
+          "website": ""
+        }
+      },
+      "pos": { "x": 70, "y": 52 },
+      "people": []
+    },
+    {
+      "id": "people",
+      "label": "People",
+      "icon": "groups_3",
+      "color": "#ffffff",
+      "glowClass": "node-glow-white",
+      "textClass": "text-white",
+      "borderClass": "border-white/60",
+      "description": "We find the raw diamonds in the Milan's startup ecosystem, work hard with you to take the next step in your entrepreneurial journey, and most importantly, we build a community that feels like a family!",
+      "lead": {
+        "name": "Alexandra Dumitrache",
+        "role": "Head of People",
+        "img": "photos_starties/Alexandra Dumitrache.jpg",
+        "links": {
+          "linkedin": "https://www.linkedin.com/in/alexandra-dumitrache/",
+          "website": ""
+        }
+      },
+      "pos": { "x": 22, "y": 22 },
+      "people": [
+        {
+          "img": "photos_starties/Abdullah.jpg",
+          "size": 24,
+          "name": "Abdullah Javed",
+          "role": "",
+          "department": "Operations",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/javedabdullah/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Aileen.jpg",
+          "size": 24,
+          "name": "Aileen Vollrath",
+          "role": "",
+          "department": "People",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/aileenvollrath/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Alessandro.jpg",
+          "size": 24,
+          "name": "Alessandro De Simone",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/alessandrodesimone-/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Alexandra Dumitrache.jpg",
+          "size": 24,
+          "name": "Alexandra Dumitrache",
+          "role": "",
+          "department": "People",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/alexandra-dumitrache/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Alexandra Gadiac.jpg",
+          "size": 24,
+          "name": "Alexandra Gadiac",
+          "role": "",
+          "department": "Events",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/alexandra-gadiac-7678ab238/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Andra-Maria Baciu.jpg",
+          "size": 24,
+          "name": "Andra-Maria Baciu",
+          "role": "",
+          "department": "Events",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/andra-maria-baciu-8509712a1/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Andrada.jpg",
+          "size": 24,
+          "name": "Andrada Ilie",
+          "role": "",
+          "department": "Events",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/andrada-ilie-b25497258/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Andrea Schenini.jpg",
+          "size": 24,
+          "name": "Andrea Schenini",
+          "role": "",
+          "department": "Events",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/andrea-schenini-2b921b250/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Berend Harms.jpg",
+          "size": 24,
+          "name": "Berend Harms",
+          "role": "",
+          "department": "Partnerships",
+          "active":  true,
+          "links": { "linkedin": "https://www.linkedin.com/in/berend-harms-905609209/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Elisabetta.jpg",
+          "size": 24,
+          "name": "Elisabetta Fabris",
+          "role": "",
+          "department": "Partnerships",
+          "active":  true,
+          "links": { "linkedin": "https://www.linkedin.com/in/elisabetta-fabris/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Enrico.jpg",
+          "size": 24,
+          "name": "Enrico Yu",
+          "role": "",
+          "department": "Events",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/enrico-yu-4696561a8/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Francisca.jpg",
+          "size": 24,
+          "name": "Francisca Ramos",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/mariafranciscaramos/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Gianmarco Crociati.jpg",
+          "size": 24,
+          "name": "Gianmarco Crociati",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/gianmarco-crociati/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Giovanna.jpg",
+          "size": 24,
+          "name": "Giovanna Crisan",
+          "role": "",
+          "department": "People",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/giovanna-crisan-606ba1309/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Hazal.jpg",
+          "size": 24,
+          "name": "Hazal Genc",
+          "role": "",
+          "department": "People",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/hazal-genc-2793b9250/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Isaia.jpg",
+          "size": 24,
+          "name": "Isaia Berteletti",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/isaia-berteletti/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Jacopo.jpg",
+          "size": 24,
+          "name": "Jacopo Favaro",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/jacopo-favaro/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Julia.jpg",
+          "size": 24,
+          "name": "Julia Vidal",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/juliavidall/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Lorenzo Carlini.jpg",
+          "size": 24,
+          "name": "Lorenzo Carlini",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/lorenzo-carlini/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Lorenzo Gober.jpg",
+          "size": 24,
+          "name": "Lorenzo Gober",
+          "role": "",
+          "department": "Events",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/lorenzogober/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Marc.jpg",
+          "size": 24,
+          "name": "Marc Martire",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/marc-martire-8604ab182/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Matteo Faieta.jpg",
+          "size": 24,
+          "name": "Matteo Faieta",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/matteofaieta/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Mattia Moretti.jpg",
+          "size": 24,
+          "name": "Mattia Moretti",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/mattiamoretti/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Milda.jpg",
+          "size": 24,
+          "name": "Milda Jonikaitė",
+          "role": "",
+          "department": "Operations",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/milda-jonikait%C4%97/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Oliwia.jpg",
+          "size": 24,
+          "name": "Oliwia Piecuch",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/oliwia-piecuch/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Philipp.jpg",
+          "size": 24,
+          "name": "Philipp Kohlross",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/philipp-kohlross/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Sarah Siepmann.jpg",
+          "size": 24,
+          "name": "Sarah Siepmann",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/sarah-mathilde-adelheid-siepmann/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Stan.jpg",
+          "size": 24,
+          "name": "Stanislaw Szymanski",
+          "role": "",
+          "department": "Operations",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/stanislaw-szymanski-63a426261/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Tijn.jpg",
+          "size": 24,
+          "name": "Constantijn van Eendenburg",
+          "role": "",
+          "department": "People",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/tijn-van-eendenburg/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Youssef.jpg",
+          "size": 24,
+          "name": "Youssef Bimezzagh",
+          "role": "",
+          "department": "Partnerships",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/youssefbimezzagh/", "website": "" }
+        },
+        {
+          "img": "photos_starties/Zaynep.jpg",
+          "size": 24,
+          "name": "Zeynep Duru Memis",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/zeynep-duru-memi%C5%9F-3a05772ba/", "website": "" }
+        },
+        {
+          "img": "photos_starties/jessica.jpg",
+          "size": 24,
+          "name": "Gialinh Jessica Tran",
+          "role": "",
+          "department": "Growth",
+          "active": true,
+          "links": { "linkedin": "https://www.linkedin.com/in/gia-linh-jessica-tran-254283344/", "website": "" }
+        }
+      ]
+    }
+  ]
+}

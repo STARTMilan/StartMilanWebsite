@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>START Milan | Partnership Network Map</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#003087",
+                        "background-dark": "#00002c",
+                        "neon-cyan": "#05c3de",
+                        "charcoal-dark": "#00002c",
+                    },
+                    fontFamily: {
+                        "display": ["Prompt", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        :root { --primary: #003087; --neon-cyan: #05c3de; } .grid-pattern { background-image: radial-gradient(circle, #001e62 0.5px, transparent 0.5px); background-size: 40px 40px; } .glass { background: rgba(0, 30, 98, 0.6); backdrop-filter: blur(20px); border:
+        1px solid rgba(255, 255, 255, 0.05); } .map-container { background: radial-gradient(circle at 50% 40%, #001e62 0%, #00002c 100%); } .glow-milan { box-shadow: 0 0 40px 15px rgba(0, 48, 135, 0.3); } .arc-cyan { stroke: var(--neon-cyan); filter:
+        drop-shadow(0 0 8px var(--neon-cyan)); opacity: 0.5; stroke-dasharray: 2, 4; } .italy-3d-shadow { filter: drop-shadow(15px 15px 30px rgba(0, 0, 44, 0.8)); } .map-zoom { --zoom-x: 50%; --zoom-y: 50%; position: relative; height: 100%; width: auto;
+        } .map-black { filter: grayscale(1) brightness(0.5) contrast(2.5) drop-shadow(0 0 6px rgba(0, 48, 135, 0.55)); } .zoom-target { height: 100%; width: auto; transform-origin: var(--zoom-x) var(--zoom-y); transition: transform 300ms ease; } .map-zoom.zoomed
+        .zoom-target { transform: scale(1.5); } .map-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; } .map-overlay .zoom-node { pointer-events: auto; cursor: pointer; } .map-overlay a:focus, .map-overlay a:focus-visible
+        { outline: none; } .map-overlay text { font-family: Prompt, sans-serif; letter-spacing: 0.08em; } .partner-dot { fill: var(--neon-cyan); filter: drop-shadow(0 0 8px var(--neon-cyan)); } .hq-dot { fill: var(--primary); filter: drop-shadow(0 0 12px
+        var(--primary)); } .pulse { animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; } @keyframes pulse-ring { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 0.4; } 100% { transform: scale(0.95); opacity:
+        0.8; } }
+    </style>
+    <link href="magic-bento.css" rel="stylesheet" />
+</head>
+
+<body class="bg-background-dark font-display text-white overflow-hidden">
+    <div class="flex h-screen w-full flex-col">
+        <header class="flex h-20 items-center justify-between px-10 z-50">
+                <a href="index.html" class="flex items-center gap-4 hover:opacity-80 transition-opacity cursor-pointer">
+                    <span class="material-symbols-outlined text-white text-xl">arrow_back</span>
+                    <div class="flex flex-col items-center justify-center">
+                        <img src="./Logo_white.png" alt="START Milan logo" class="h-9 w-auto" />
+                        <p class="text-[10px] text-primary/80 font-bold uppercase tracking-[0.2em]">National Partnership Network</p>
+                    </div>
+                </a>
+            <div class="flex items-center gap-8 text-xs font-medium tracking-widest uppercase text-white/60">
+                <span class="text-white border-b border-primary pb-1">Observatory</span>
+            </div>
+        </header>
+        <div class="flex flex-1 relative">
+            <main class="flex-1 map-container grid-pattern relative overflow-hidden flex items-center justify-center">
+                <div class="relative w-full h-[85%] flex items-center justify-center italy-3d-shadow">
+                    <div class="map-zoom" id="ventures-map">
+                        <div class="zoom-target">
+                            <img class="h-full w-auto map-black" src="models/it.svg" alt="Italy ventures map" />
+                            <svg class="map-overlay" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-label="Ventures map">
+<g opacity="0.7">
+<path class="arc-cyan" d="M335 162 Q 295 185 260 200" fill="none" stroke-width="1.5"></path>
+<path class="arc-cyan" d="M335 162 Q 380 210 430 260" fill="none" stroke-width="1.5"></path>
+<path class="arc-cyan" d="M335 162 Q 430 300 505 468" fill="none" stroke-width="1.5"></path>
+<path class="arc-cyan" d="M335 162 Q 520 340 633 539" fill="none" stroke-width="1.5"></path>
+</g>
+<a class="zoom-node" data-zoom-x="33.5%" data-zoom-y="16.2%" href="index.html" aria-label="Go to START Milan landing page">
+<circle class="hq-dot" cx="335" cy="162" r="8"></circle>
+<circle class="hq-dot" cx="335" cy="162" r="18" fill="none" stroke="rgba(0, 48, 135, 0.35)" stroke-width="2">
+<animate attributeName="r" values="12;20;12" dur="2.6s" repeatCount="indefinite"></animate>
+</circle>
+<text x="360" y="150" font-size="14" fill="#ffffff" font-weight="700">START Milan</text>
+<text x="360" y="168" font-size="10" fill="#003087" font-weight="700">HQ HUB</text>
+</a>
+
+<g class="zoom-node" data-zoom-x="26%" data-zoom-y="20%">
+<title>Turin Partner</title>
+<circle class="partner-dot" cx="260" cy="200" r="5"></circle>
+</g>
+<g class="zoom-node" data-zoom-x="43%" data-zoom-y="26%">
+<title>Bologna Partner</title>
+<circle class="partner-dot" cx="430" cy="260" r="5"></circle>
+</g>
+<g class="zoom-node" data-zoom-x="50.5%" data-zoom-y="46.8%">
+<title>Rome Partner</title>
+<circle class="partner-dot" cx="505" cy="468" r="5"></circle>
+</g>
+<g class="zoom-node" data-zoom-x="63.3%" data-zoom-y="53.9%">
+<title>Naples Partner</title>
+<circle class="partner-dot" cx="633" cy="539" r="5"></circle>
+</g>
+</svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute left-10 bottom-10 glass p-6 rounded-lg w-72 pointer-events-none">
+                    <div class="mb-4">
+                        <h3 class="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-1">Network Detail</h3>
+                        <p class="text-lg font-semibold border-b border-white/10 pb-2">National Ecosystem</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70">Total Partners</span>
+                            <span class="text-sm font-mono text-white">4</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70">Primary Hubs</span>
+                            <span class="text-sm font-mono text-white">1</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-white/70">Active Connections</span>
+                            <span class="text-sm font-mono text-white">12</span>
+                        </div>
+                        <div class="pt-2">
+                            <div class="h-[1px] w-full bg-white/5 mb-3"></div>
+                            <p class="text-[10px] text-white/60 italic leading-relaxed">
+                                Observing data synchronization across all regional nodes. Connections indicate high-bandwidth strategic partnerships.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-0 right-10 flex flex-col items-end gap-6 pt-10">
+                    <div class="text-right">
+                        <p class="text-[10px] text-white/60 font-bold uppercase tracking-[0.3em]">Status</p>
+                        <div class="flex items-center gap-2 justify-end mt-1">
+                            <span class="h-1.5 w-1.5 rounded-full bg-[#83af9b] shadow-[0_0_8px_#83af9b]"></span>
+                            <span class="text-xs font-medium text-white/70">SYSTEM OPERATIONAL</span>
+                        </div>
+                    </div>
+                    <div class="glass p-4 rounded flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="h-2 w-2 bg-primary shadow-[0_0_10px_var(--primary)]"></div>
+                            <span class="text-[10px] tracking-widest text-white/70 uppercase">Core HQ</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="h-2 w-2 rounded-full bg-neon-cyan shadow-[0_0_10px_var(--neon-cyan)]"></div>
+                            <span class="text-[10px] tracking-widest text-white/70 uppercase">Partner Node</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute bottom-6 right-6 opacity-20 pointer-events-none">
+                    <p class="text-[9px] font-mono text-white/60">45.4642° N, 9.1900° E (Milan Hub)</p>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        const mapEl = document.getElementById("ventures-map");
+        const zoomNodes = mapEl ? .querySelectorAll(".zoom-node") || [];
+
+        const setZoomOrigin = (node) => {
+            const x = node.getAttribute("data-zoom-x") || "50%";
+            const y = node.getAttribute("data-zoom-y") || "50%";
+            mapEl.style.setProperty("--zoom-x", x);
+            mapEl.style.setProperty("--zoom-y", y);
+            mapEl.classList.add("zoomed");
+        };
+
+        const clearZoom = () => {
+            mapEl.classList.remove("zoomed");
+        };
+
+        zoomNodes.forEach((node) => {
+            node.addEventListener("mouseenter", () => setZoomOrigin(node));
+            node.addEventListener("focus", () => setZoomOrigin(node));
+            node.addEventListener("mouseleave", clearZoom);
+            node.addEventListener("blur", clearZoom);
+        });
+    </script>
+    <script src="node_modules/gsap/dist/gsap.min.js"></script>
+    <script src="scripts/magic-bento.js"></script>
+</body>
+
+</html>

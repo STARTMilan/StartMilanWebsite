@@ -1,0 +1,38 @@
+{
+    "name": "START Milan Website",
+    "version": "1.0.0",
+    "description": "Dynamic and modern website for START Milan - The Next Gen of Innovators",
+    "main": "index.html",
+    "scripts": {
+        "start": "python -m http.server 8000",
+        "dev": "python -m http.server 3000",
+        "prestart": "npm run thumbs",
+        "predev": "npm run thumbs",
+        "build": "echo 'Building project...'",
+        "thumbs": "node scripts/thumbify.js",
+        "deploy": "echo 'Deploying to production...'"
+    },
+    "keywords": [
+        "startup",
+        "milan",
+        "innovation",
+        "entrepreneurship",
+        "students",
+        "community"
+    ],
+    "author": "START Milan Team",
+    "license": "MIT",
+    "dependencies": {
+        "gsap": "^3.14.2",
+        "sharp": "^0.33.5",
+        "three": "^0.158.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/startmilan/website.git"
+    },
+    "bugs": {
+        "url": "https://github.com/startmilan/website/issues"
+    },
+    "homepage": "https://startmilan.it"
+}

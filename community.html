@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>START Milan | Community Mesh Network</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#05c3de",
+                        "accent-magenta": "#003087",
+                        "accent-gold": "#83af9b",
+                        "background-dark": "#00002c",
+                        "card-glass": "rgba(0, 0, 44, 0.7)",
+                    },
+                    fontFamily: {
+                        "sans": ["Prompt", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                background-color: #00002c;
+                color: #ffffff;
+                overflow: hidden;
+                font-family: "Prompt", sans-serif;
+            }
+        }
+        .mesh-canvas {
+            background: radial-gradient(circle at center, #00002c 0%, #00002c 100%);
+            perspective: 1200px;
+        }
+        #mesh-scene {
+            width: 100%;
+            height: 100%;
+            transform: translate3d(0, 0, 0) scale(0.85);
+            transform-origin: center;
+            transition: transform 2.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+            will-change: transform;
+        }
+        .glass-panel {
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 44, 0.6);
+        }
+        .node-glow-cyan { filter: drop-shadow(0 0 8px rgba(5, 195, 222, 0.6)); }
+        .node-glow-magenta { filter: drop-shadow(0 0 8px rgba(0, 48, 135, 0.6)); }
+        .node-glow-gold { filter: drop-shadow(0 0 8px rgba(131, 175, 155, 0.6)); }
+        .node-glow-white { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)); }
+        .pulse-line {
+            stroke-dasharray: 4, 6;
+            animation: dash 40s linear infinite;
+            opacity: 1;
+        }
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+        .network-node {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .network-node:hover {
+            transform: scale(1.5);
+            filter: brightness(1.5) drop-shadow(0 0 12px currentColor);
+        }
+        .dept-node {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .dept-label {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .person-node {
+            position: absolute;
+            border-radius: 9999px;
+            border-width: 1px;
+            border-style: solid;
+            background: #00002c;
+            object-fit: cover;
+            object-position: center;
+            image-rendering: -webkit-optimize-contrast;
+            backface-visibility: hidden;
+            width: 128px !important;
+            height: 128px !important;
+        }
+        .dept-lead-img {
+            width: 128px !important;
+            height: 128px !important;
+            transform: scale(0.375) translateZ(0); /* 48px / 128px = 0.375 */
+            margin: -40px; /* Compensa lo spazio extra: (128-48)/2 = 40 */
+            image-rendering: -webkit-optimize-contrast;
+            backface-visibility: hidden;
+        }
+        .profile-hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+        .profile-panel {
+            transition: opacity 0.35s ease, transform 0.35s ease;
+        }
+        .member-card {
+            transition: all 0.3s ease;
+        }
+        .member-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(5, 195, 222, 0.15);
+        }
+    </style>
+<link href="magic-bento.css" rel="stylesheet"/>
+</head>
+<body class="h-screen w-screen flex flex-col">
+<header class="fixed top-0 w-full z-50 border-b border-white/5 bg-background-dark/40 backdrop-blur-md">
+<div class="max-w-[1600px] mx-auto px-8 h-16 flex items-center justify-between">
+<a href="index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white text-xl">arrow_back</span>
+<img src="Logo_white.png" alt="START Milan logo" style="height: 62px; width: auto;" />
+<span class="text-sm font-bold tracking-tighter uppercase">/ <span class="opacity-50 font-normal">Mesh Network</span></span>
+</a>
+<div class="flex items-center gap-6">
+<div class="flex items-center p-1 bg-white/5 rounded-full border border-white/10">
+<button id="view-graph" class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white/10 shadow-lg transition-all">Graph</button>
+<button id="view-list" class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all">List</button>
+</div>
+</div>
+</div>
+</header>
+<main class="relative flex-1 overflow-hidden mesh-canvas">
+<div id="mesh-scene" class="absolute inset-0">
+<svg id="mesh-edges" class="absolute inset-0 w-full h-full pointer-events-none opacity-55" viewBox="0 0 1000 1000" preserveAspectRatio="none"></svg>
+<div id="mesh-nodes" class="absolute inset-0"></div>
+</div>
+<div id="member-profile" class="profile-panel glass-panel rounded-2xl p-6 shadow-2xl profile-hidden" style="position: fixed; top: 80px; right: 32px; width: 320px; z-index: 40;">
+<div class="flex items-center justify-between mb-8">
+<span class="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Member Profile</span>
+<span class="material-symbols-outlined text-sm opacity-40">close</span>
+</div>
+<div class="text-center mb-8">
+<div class="relative inline-block mb-4">
+<img id="profile-image" alt="Member profile" class="size-24 rounded-full border-2 border-accent-magenta p-1 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY"/>
+<div class="absolute -bottom-1 -right-1 size-6 bg-accent-magenta rounded-full border-4 border-background-dark flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white">bolt</span>
+</div>
+</div>
+<h3 id="profile-name" class="text-xl font-bold">Lorenzo Bianchi</h3>
+<p id="profile-role" class="text-xs text-accent-magenta font-semibold tracking-widest uppercase mt-1">Head of Marketing</p>
+</div>
+<div class="space-y-6">
+<div>
+<h4 class="text-[10px] font-black text-white/40 uppercase tracking-widest mb-3">Department</h4>
+<div id="profile-department" class="inline-flex items-center gap-2 px-2 py-1 rounded-md bg-primary/10 border border-primary/20 text-[10px] text-primary font-bold">Operations</div>
+</div>
+<div class="p-4 bg-white/5 rounded-xl border border-white/10 flex items-center justify-between">
+<span class="text-[10px] font-bold opacity-40 uppercase">Active in Ecosystem</span>
+<span id="profile-active" class="inline-flex items-center gap-1 text-[10px] font-bold text-primary">
+<span id="profile-active-icon" class="material-symbols-outlined text-[14px]">check_circle</span>
+<span id="profile-active-text">Active</span>
+</span>
+</div>
+<div class="flex items-center gap-3">
+<a id="profile-website" href="#" target="_blank" rel="noopener" class="flex-1 py-3 rounded-lg bg-white text-background-dark font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-colors text-center">Website</a>
+<a id="profile-linkedin" href="#" target="_blank" rel="noopener" class="size-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors">
+<svg class="size-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+<path d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div id="department-profile" class="profile-panel glass-panel rounded-2xl p-6 shadow-2xl profile-hidden" style="position: fixed; top: 80px; right: 32px; width: 320px; z-index: 40;">
+<div class="flex items-center justify-between mb-8">
+<span class="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Department Profile</span>
+<span class="material-symbols-outlined text-sm opacity-40">groups</span>
+</div>
+<div class="text-center mb-6">
+<h3 id="dept-name" class="text-xl font-bold">Operations</h3>
+<p id="dept-description" class="text-xs text-white/60 mt-2">The Operations department is the backbone of our organization, building the digital backbone of our community, from our platform to hackathon tools and internal automation, while ensuring our processes run smoothly and positioning START Milan for long-term success financially, legally, and operationally.</p>
+</div>
+<div class="p-4 bg-white/5 rounded-xl border border-white/10">
+<h4 class="text-[10px] font-black text-white/40 uppercase tracking-widest mb-3">Department Lead</h4>
+<div class="flex items-center gap-3">
+<img id="dept-lead-image" alt="Department lead" class="dept-lead-img rounded-full border border-white/10 object-cover" src=""/>
+<div>
+<p id="dept-lead-name" class="text-sm font-bold">Lead Name</p>
+<p id="dept-lead-role" class="text-[10px] uppercase tracking-widest text-white/50">Lead Role</p>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-3">
+<a id="dept-lead-website" href="#" target="_blank" rel="noopener" class="flex-1 py-2.5 rounded-lg bg-white text-background-dark font-black text-[10px] uppercase tracking-widest hover:bg-primary transition-colors text-center">Website</a>
+<a id="dept-lead-linkedin" href="#" target="_blank" rel="noopener" class="size-10 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors">
+<svg class="size-4 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+<path d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<div class="fixed bottom-8 right-8 z-40 glass-panel rounded-xl p-4 flex items-center justify-between border-primary/30 border">
+<div class="flex items-center gap-3">
+<div class="size-2 bg-primary rounded-full animate-pulse"></div>
+<span class="text-[10px] font-bold uppercase tracking-widest">Network Live</span>
+</div>
+<span class="text-[10px] font-mono opacity-40"></span>
+</div>
+<div class="absolute bottom-8 left-8 z-40 flex items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary node-glow-cyan"></div>
+<span class="text-[10px] font-black uppercase tracking-widest opacity-60">Operations</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-accent-magenta node-glow-magenta"></div>
+<span class="text-[10px] font-black uppercase tracking-widest opacity-60">Growth</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-primary node-glow-cyan"></div>
+<span class="text-[10px] font-black uppercase tracking-widest opacity-60">Events</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-accent-gold node-glow-gold"></div>
+<span class="text-[10px] font-black uppercase tracking-widest opacity-60">Partnerships</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-white node-glow-white"></div>
+<span class="text-[10px] font-black uppercase tracking-widest opacity-60">People</span>
+</div>
+</div>
+</main>
+<div id="list-view" class="hidden flex-1 overflow-y-auto px-8 py-24">
+<div class="max-w-5xl mx-auto">
+<div class="mb-12">
+<h2 class="text-4xl font-black mb-2">Community <span class="text-primary">Members</span></h2>
+<p class="text-sm opacity-50">Organized by departments</p>
+</div>
+<div id="departments-list" class="space-y-8">
+<!-- Departments will be rendered here -->
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+
+<script>
+const fallbackDepartments = [
+    {
+        id: "operations",
+        label: "Operations",
+        icon: "code",
+        color: "#05c3de",
+        glowClass: "node-glow-cyan",
+        textClass: "text-primary",
+        borderClass: "border-primary",
+        description: "The Operations department is the backbone of our organization, building the digital backbone of our community, from our platform to hackathon tools and internal automation, while ensuring our processes run smoothly and positioning START Milan for long-term success financially, legally, and operationally.",
+        lead: {
+            name: "Andrea",
+            role: "Head of Operations",
+            img: "photos_starties/andrea.jpg",
+            links: {
+                linkedin: "https://www.linkedin.com/in/andrea-veneroni-45b6622b3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+                website: "https://andreaveneroni.netlify.app/",
+            },
+        },
+        pos: { x: 50, y: 80 },
+        people: [
+            {
+                img: "photos_starties/andrea.jpg",
+                size: 28,
+                name: "Andrea",
+                role: "Operations",
+                department: "Operations",
+                active: true,
+                links: {
+                    website: "",
+                    linkedin: "",
+                },
+            },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAS5xxW1YKWQ5yN_XzeFtm0z8xqVO8wRH435BN3Vv_GVQZgehh2Agh5U3GyfsYtQnU-ScTHe-kI4EvNBcUG7HbyVXpXgFAlen47eM0I_CbcPZlFgvnodsAzTGT0LeCij0GI6WJSjLXu9aH7OXTKHtN1A2M3MwO4vrXlGsQcLfTmt8dlkZdZLHruhBGAg9DHi8LkzZN3fjfhE_FDKWog88kS-isPJY7uYtLYwpkNjqzq1rrVKsdkkUCp0ABoM2lkPmyedtPkYjTtC1w", size: 24 },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCSQ6vmJBBNbA6tFFukSQvrdR3NV4Wg6PSyLFqNcoPUSj-1StpH_huQNr0btyQMpJLKfkIZKYNm5HnNiu2fW9oPyFqodBX0XPn3B_i17FA1O2mc3kqCqw1UeVPbVCSuKtyJ8LxR-a4l9iE7BqR6CnGtRzZ0EuluqaEylDjwgBqOI9TH6m1_o30Ep-ekbcwNi5PBm-nG-j0rFKNxkCE0-pLXUFQRuQid2DOv3cMesdZ0ugOZP44dwyhDalfg3hMF4ytMNDHURZCXJrs", size: 26 },
+        ],
+    },
+    {
+        id: "growth",
+        label: "Growth",
+        icon: "campaign",
+        color: "#003087",
+        glowClass: "node-glow-magenta",
+        textClass: "text-accent-magenta",
+        borderClass: "border-accent-magenta",
+        description: "Growth is crafting the narrative of Milan's startup scene through design and storytelling, while finding creative and fun ways to engage our ecosystem, communicate START Milan's values, vision, and happenings, and build strong connections with students, industry partners, universities, and other initiatives.",
+        lead: {
+            name: "Lead Growth",
+            role: "Head of Growth",
+            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY",
+            links: { linkedin: "", website: "" },
+        },
+        pos: { x: 78, y: 22 },
+        people: [
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAVXUHJqCLYRnIyGvFbsZfVmgZXi0a97acEte8UHk3v1YAXS8NZh50RPl9sFwaCfEWumN5gh4ypLFYm6htXyW_kh8jo0__PrExOkthZW9xcTHb-1e-MkucyOrbP3bBMVhcF8ZQnjCwBrNm_t-bG_w56t1lo04CvO2CVcpGDLzHXPrPJW9ZYXGvXfDcwbit83023TkzOOMoBvXA4RjHsdXX9XNHJmtZvYwbuitylqymKw36KUUMUdw4ORMe6yxalZofspBc-E3_13SY", size: 30 },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsK_rB-GQokkHidP7mzzmytpPVJOfBc17oRIjvxGbgpI-TZr0sz9q0JOureP3LnvLrfmpMGKeswUKR_4ocZxBbO7GS0kc4-Jhe9qlzN-a0lf7GRcsQh-l0YqjjZ4lB5O30RkiX4UXo9NBNX0zPM7CXuuew93M5CVPXNZ-5ybsrZg2AVWAfnuVQOIT48WUBAUfZr3hxRoUEU2uCfWd-kHC6QkL9p72oM-KGy3UI5HeUU5NdL7eFNumtltiPAk1QRVwR-n1qpMLvAeE", size: 26 },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCwUxo-_K-go6lJjtwoDQWa6DDBGkPQj_uHi5Sbktlr7TOwxh8xuXR-cAaDTIJVK83PtW8X8SKtLTOFdg0OL9mgq_sEro5ymkc6r0ELc12rmeCT0CBmt_gY5FILO7RYbhxZBydY_S4cEN2IoiNuw3PUU1mhkE6JmCMqgZ17irV9y6ZUA8P0X2SzJ05daPxDH8Gfodb0RNs5g9tI22uaXoLH5w-gDXiLc02AUphqTeatKQkfyVR8e01xvLqcLaFb0Fn7Ji3hyDag2Dw", size: 22 },
+        ],
+    },
+    {
+        id: "events",
+        label: "Events",
+        icon: "event_seat",
+        color: "#05c3de",
+        glowClass: "node-glow-cyan",
+        textClass: "text-primary",
+        borderClass: "border-primary",
+        description: "Our events are the key to a strong community and an active network. By organizing diverse events we tailor to the interests of our members, thus provide an opportunity to gain new knowledge, skills and experiences that promote growth and innovation.",
+        lead: {
+            name: "Lead Events",
+            role: "Head of Events",
+            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZKJC40r2xycbNQHaQaQxEjM4L9KoZDOOiq0pzOIuvjeFEMXYqNlSgHR5PI4o28otfu_RhaFrsvT0o2lNzVcfaB1hrp7l1aDwYtG-7Ui8ok2trIm9DjdUox4KkyWrFo5kPudY3yoWyL3lsHPpgOXiX7f6WvPGkHHFs7z7sjA0cDYl5Bx9cnIPn0HDsllibcehnOlDP5YeV2Ug0YQ3tDAM52tsGNWLRO-gYq5_IbEAJuiCHxN1BwHF5eR-tbJ8-SSdf_SdWwc7OQ",
+            links: { linkedin: "", website: "" },
+        },
+        pos: { x: 30, y: 52 },
+        people: [
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRBZKJC40r2xycbNQHaQaQxEjM4L9KoZDOOiq0pzOIuvjeFEMXYqNlSgHR5PI4o28otfu_RhaFrsvT0o2lNzVcfaB1hrp7l1aDwYtG-7Ui8ok2trIm9DjdUox4KkyWrFo5kPudY3yoWyL3lsHPpgOXiX7f6WvPGkHHFs7z7sjA0cDYl5Bx9cnIPn0HDsllibcehnOlDP5YeV2Ug0YQ3tDAM52tsGNWLRO-gYq5_IbEAJuiCHxN1BwHF5eR-tbJ8-SSdf_SdWwc7OQ", size: 26 },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDIdYvOCvfuvBeeBzUIiOa1-vEdA1eoqXUvQ-5dpWh0wPVSh2KwC0qW1_o1IMvdqxIWuBa8mxEV-HeeZUGCcoMK6eZ5fEBngy-2CqC9bISBnhNFk16lZYm_0pmaGKmQ5ebNk8nyRmZQDwjtpHX96nbGLhosjYfUMVG8gf9XpoFrLurYTve0g5GlWhruFyxKVzBB4uZYQl1zY1N-NwG53DkTMVEPvOIKsdRVbOJv5KQ0IJAtu_MdgIWFE3po0gWk3s1og4amncQc7N0", size: 22 },
+        ],
+    },
+    {
+        id: "partnerships",
+        label: "Partnerships",
+        icon: "handshake",
+        color: "#83af9b",
+        glowClass: "node-glow-gold",
+        textClass: "text-accent-gold",
+        borderClass: "border-accent-gold",
+        description: "Partnerships develops strategic relationships and collaborations.",
+        lead: {
+            name: "Lead Partnerships",
+            role: "Head of Partnerships",
+            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKnJpNS4VjibdDnC6EqL4bHNFEmlpey5WX05mnQJcXsPhop40b2fLuWG3iJoRctiORyir0y-VSzNlP6R3YMqvNM7pr5epoN3COIufuEe0q9XbmV_JjGruX8azLWxCsaKjv8pdl9J5-1feECJNZcGvE_5gYsYhD8fN22UVesHUkX5Uw2UUfezP2Ojwx8z3eem8EblC1SP435tFmnxcXVp0xGKu6jGicCcq4SPQcxv_EOfT0N_uKhtv0pCp9-E1QzCSL7RX2b-OArUc",
+            links: { linkedin: "", website: "" },
+        },
+        pos: { x: 70, y: 52 },
+        people: [
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBKnJpNS4VjibdDnC6EqL4bHNFEmlpey5WX05mnQJcXsPhop40b2fLuWG3iJoRctiORyir0y-VSzNlP6R3YMqvNM7pr5epoN3COIufuEe0q9XbmV_JjGruX8azLWxCsaKjv8pdl9J5-1feECJNZcGvE_5gYsYhD8fN22UVesHUkX5Uw2UUfezP2Ojwx8z3eem8EblC1SP435tFmnxcXVp0xGKu6jGicCcq4SPQcxv_EOfT0N_uKhtv0pCp9-E1QzCSL7RX2b-OArUc", size: 28 },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAcBPL-V7v72ONlZJ0RncNgaeVnLXvepkMHwzRYaF1W1c7lbwVOtg_KApn19CB6xvOv1acwd_u7uQy9EKAKsiN0gCJKaf4LU38QIaoR8aQfhwsAQjKo2lQbOSZ5V-Ec8Re8NooqijymveM9lIWUvUkBUvhgXYn5ass0_eP81ibozI0KMGKXd-uv2yQVRq9vi9v7G_RjPV4lBJwdbC0EcD-iMcYVllLgAWPbGo2LQxNkbQ730B90JivH2FQZEhk37hXCM759y9dYymA", size: 24 },
+        ],
+    },
+    {
+        id: "people",
+        label: "People",
+        icon: "groups_3",
+        color: "#ffffff",
+        glowClass: "node-glow-white",
+        textClass: "text-white",
+        borderClass: "border-white/60",
+        description: "We find the raw diamonds in the Milan's startup ecosystem, work hard with you to take the next step in your entrepreneurial journey, and most importantly, we build a community that feels like a family!",
+        lead: {
+            name: "Lead People",
+            role: "Head of People",
+            img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCFte538UudMmRqCjSnsLasNzgAU3urCMIO0qRY0SJJrhXlbUJRWVGAwFqt89Yjvj4882PIQg7BNgPiMNTxIRFpEhLNfA82nnjpJvJPQ5N3cezzuC5fLuq5Lw3kAkO5gAOAGLgB1jTKFhsH9Npn6dDYYgFfwgvGPvoMG8mX8rKs-FVDiy4fVQGCnnKT46OahKFYn8w_Xa_eWhDed3WoqcmaR6PGdA0-Y0wTTm48PzL-_9FW9tf_PBbovUufGANpql9r3y6CxH6osmg",
+            links: { linkedin: "", website: "" },
+        },
+        pos: { x: 22, y: 22 },
+        people: [
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCFte538UudMmRqCjSnsLasNzgAU3urCMIO0qRY0SJJrhXlbUJRWVGAwFqt89Yjvj4882PIQg7BNgPiMNTxIRFpEhLNfA82nnjpJvJPQ5N3cezzuC5fLuq5Lw3kAkO5gAOAGLgB1jTKFhsH9Npn6dDYYgFfwgvGPvoMG8mX8rKs-FVDiy4fVQGCnnKT46OahKFYn8w_Xa_eWhDed3WoqcmaR6PGdA0-Y0wTTm48PzL-_9FW9tf_PBbovUufGANpql9r3y6CxH6osmg", size: 24 },
+            { img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBsK_rB-GQokkHidP7mzzmytpPVJOfBc17oRIjvxGbgpI-TZr0sz9q0JOureP3LnvLrfmpMGKeswUKR_4ocZxBbO7GS0kc4-Jhe9qlzN-a0lf7GRcsQh-l0YqjjZ4lB5O30RkiX4UXo9NBNX0zPM7CXuuew93M5CVPXNZ-5ybsrZg2AVWAfnuVQOIT48WUBAUfZr3hxRoUEU2uCfWd-kHC6QkL9p72oM-KGy3UI5HeUU5NdL7eFNumtltiPAk1QRVwR-n1qpMLvAeE", size: 22 },
+        ],
+    },
+];
+
+let departments = [];
+
+const nodesLayer = document.getElementById("mesh-nodes");
+const edgesLayer = document.getElementById("mesh-edges");
+const scene = document.getElementById("mesh-scene");
+const profilePanel = document.getElementById("member-profile");
+const profileImage = document.getElementById("profile-image");
+const profileName = document.getElementById("profile-name");
+const profileRole = document.getElementById("profile-role");
+const profileDepartment = document.getElementById("profile-department");
+const profileActiveIcon = document.getElementById("profile-active-icon");
+const profileActiveText = document.getElementById("profile-active-text");
+const profileWebsite = document.getElementById("profile-website");
+const profileLinkedin = document.getElementById("profile-linkedin");
+const departmentPanel = document.getElementById("department-profile");
+const deptName = document.getElementById("dept-name");
+const deptDescription = document.getElementById("dept-description");
+const deptLeadImage = document.getElementById("dept-lead-image");
+const deptLeadName = document.getElementById("dept-lead-name");
+const deptLeadRole = document.getElementById("dept-lead-role");
+const deptLeadWebsite = document.getElementById("dept-lead-website");
+const deptLeadLinkedin = document.getElementById("dept-lead-linkedin");
+
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+const focusOn = (xPct, yPct, scale) => {
+    const rect = nodesLayer.getBoundingClientRect();
+    const targetX = (xPct / 100) * rect.width;
+    const targetY = (yPct / 100) * rect.height;
+    const offsetX = rect.width / 2 - targetX;
+    const offsetY = rect.height / 2 - targetY;
+    scene.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${scale})`;
+};
+const resetFocus = () => {
+    scene.style.transform = "translate3d(0, 0, 0) scale(0.85)";
+};
+
+const toViewBox = (pct) => pct * 10;
+const getThumbSources = (src) => {
+    if (!src.startsWith("photos_starties/") || src.includes("/thumbs/")) {
+        return { src, srcSet: "", fallback: src };
+    }
+    const fileName = src.split("/").pop() || "";
+    const base = fileName.replace(/\.[^.]+$/, "");
+    return {
+        src: `photos_starties/thumbs/${base}-128.webp`,
+        srcSet: `photos_starties/thumbs/${base}-128.webp 1x, photos_starties/thumbs/${base}-256.webp 2x`,
+        fallback: src,
+    };
+};
+const addLine = (x1, y1, x2, y2, stroke, width = 0.6, opacity = 0.7) => {
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", x1);
+    line.setAttribute("y1", y1);
+    line.setAttribute("x2", x2);
+    line.setAttribute("y2", y2);
+    line.setAttribute("stroke", stroke);
+    line.setAttribute("stroke-width", width);
+    line.setAttribute("opacity", opacity);
+    line.classList.add("pulse-line");
+    if (stroke.toLowerCase().includes("a855f7") || stroke.toLowerCase().includes("168,85,247")) {
+        line.style.filter = "drop-shadow(0 0 28px rgba(0, 48, 135, 1)) drop-shadow(0 0 12px rgba(0, 48, 135, 1))";
+    }
+    if (stroke.toLowerCase().includes("25c0f4") || stroke.toLowerCase().includes("37,192,244")) {
+        line.style.filter = "drop-shadow(0 0 28px rgba(5, 195, 222, 1)) drop-shadow(0 0 12px rgba(5, 195, 222, 1))";
+    }
+    if (stroke.includes("255,255,255")) {
+        line.setAttribute("stroke", "rgba(255,255,255,1)");
+        line.setAttribute("opacity", "1");
+        line.style.filter = "drop-shadow(0 0 24px rgba(255,255,255,1))";
+    }
+    edgesLayer.appendChild(line);
+};
+
+const normalizeDepartmentKey = (value) => String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+const PEOPLE_DATA_CACHE_KEY = "start-community-people-data-v1";
+
+const getSafeFallbackDepartments = () => fallbackDepartments.map((dept) => ({
+    ...dept,
+    people: [],
+}));
+
+const resolveRawDepartments = (data) => {
+    if (Array.isArray(data?.departments)) {
+        return data.departments;
+    }
+    if (Array.isArray(data)) {
+        return data;
+    }
+    if (Array.isArray(data?.people)) {
+        const seeded = fallbackDepartments.map((dept) => ({ ...dept, people: [] }));
+        const peopleDept = seeded.find((dept) => normalizeDepartmentKey(dept.id) === "people");
+        if (peopleDept) {
+            peopleDept.people = [...data.people];
+        }
+        return seeded;
+    }
+    return null;
+};
+
+const buildDepartmentsFromJson = (rawDepartments) => {
+    if (!Array.isArray(rawDepartments) || rawDepartments.length === 0) {
+        return getSafeFallbackDepartments();
+    }
+
+    const clones = rawDepartments.map((dept) => ({
+        ...dept,
+        people: Array.isArray(dept.people) ? [...dept.people] : [],
+    }));
+
+    const byId = new Map();
+    const byLabel = new Map();
+    clones.forEach((dept) => {
+        byId.set(normalizeDepartmentKey(dept.id), dept);
+        byLabel.set(normalizeDepartmentKey(dept.label), dept);
+    });
+
+    const allPeople = [];
+    clones.forEach((dept) => {
+        dept.people.forEach((person) => {
+            allPeople.push({ ...person, _originDeptLabel: dept.label, _originDeptId: dept.id });
+        });
+    });
+
+    clones.forEach((dept) => {
+        dept.people = [];
+    });
+
+    const seen = new Set();
+    allPeople.forEach((person) => {
+        const targetKey = normalizeDepartmentKey(person.department);
+        const targetDept = byId.get(targetKey) || byLabel.get(targetKey) || byId.get(normalizeDepartmentKey(person._originDeptId)) || byLabel.get(normalizeDepartmentKey(person._originDeptLabel));
+        if (!targetDept) return;
+
+        const dedupeKey = [
+            normalizeDepartmentKey(targetDept.id),
+            normalizeDepartmentKey(person.name),
+            normalizeDepartmentKey(person.img),
+            normalizeDepartmentKey(person.links?.linkedin),
+        ].join("|");
+        if (seen.has(dedupeKey)) return;
+        seen.add(dedupeKey);
+
+        targetDept.people.push({
+            ...person,
+            size: Number(person.size) > 0 ? Number(person.size) : 24,
+            department: person.department || targetDept.label,
+            links: person.links || {},
+        });
+    });
+
+    return clones;
+};
+
+const renderGraph = () => {
+    nodesLayer.innerHTML = "";
+    edgesLayer.innerHTML = "";
+
+    const deptCenters = new Map();
+    const hub = {
+        x: 50,
+        y: 12,
+        label: "Hub",
+        icon: "hub",
+    };
+    const hubNode = document.createElement("div");
+    hubNode.className = "dept-node hub-node group cursor-pointer";
+    hubNode.style.left = `${hub.x}%`;
+    hubNode.style.top = `${hub.y}%`;
+    hubNode.dataset.x = hub.x;
+    hubNode.dataset.y = hub.y;
+    hubNode.style.transform = "translate(-50%, -50%)";
+    hubNode.innerHTML = `
+        <div class="size-20 rounded-full border-2 border-primary bg-background-dark flex items-center justify-center node-glow-cyan">
+            <span class="material-symbols-outlined text-primary text-4xl">${hub.icon}</span>
+        </div>
+        <span class="dept-label text-primary">${hub.label}</span>
+    `;
+    hubNode.addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+    nodesLayer.appendChild(hubNode);
+    departments.forEach((dept) => {
+        const x = dept.pos.x;
+        const y = dept.pos.y;
+        deptCenters.set(dept.id, { x, y });
+        addLine(toViewBox(hub.x), toViewBox(hub.y), toViewBox(x), toViewBox(y), "#003087", 0.7, 0.8);
+
+        const deptNode = document.createElement("div");
+        deptNode.className = `dept-node group cursor-pointer`;
+        deptNode.style.left = `${x}%`;
+        deptNode.style.top = `${y}%`;
+        deptNode.style.transform = "translate(-50%, -50%)";
+        deptNode.dataset.x = x;
+        deptNode.dataset.y = y;
+        deptNode.dataset.deptId = dept.id;
+
+        deptNode.innerHTML = `
+            <div class="size-16 rounded-full border-2 ${dept.borderClass} bg-background-dark flex items-center justify-center ${dept.glowClass}">
+                <span class="material-symbols-outlined ${dept.textClass} text-3xl">${dept.icon}</span>
+            </div>
+            <span class="dept-label ${dept.textClass}">${dept.label}</span>
+        `;
+        nodesLayer.appendChild(deptNode);
+
+        const radius = 7 + Math.min(dept.people.length, 60) * 0.45;
+        dept.people.forEach((person, index) => {
+            const angle = (Math.PI * 2 * index) / dept.people.length - Math.PI / 2 + Math.PI / 4;
+            const px = x + Math.cos(angle) * radius;
+            const py = y + Math.sin(angle) * radius;
+
+            const personNode = document.createElement("img");
+            const thumbs = getThumbSources(person.img);
+            personNode.src = thumbs.src;
+            if (thumbs.srcSet) {
+                personNode.srcset = thumbs.srcSet;
+                personNode.sizes = "64px";
+            }
+            const personName = person.name || `${dept.label} Member`;
+            const personRole = person.role || `${dept.label} Team`;
+            const personDepartment = person.department || dept.label;
+            const personActive = typeof person.active === "boolean" ? person.active : true;
+            const personLinks = person.links || {};
+
+            personNode.alt = `${personName} profile`;
+            personNode.className = "person-node network-node cursor-pointer";
+            personNode.loading = "lazy";
+            personNode.decoding = "async";
+            personNode.onerror = () => {
+                personNode.src = thumbs.fallback;
+                personNode.srcset = "";
+            };
+            const personSize = person.size * 1.5;
+            const scaleRatio = personSize / 128; // Scala rispetto alla dimensione nativa 128px
+            personNode.style.left = `${px}%`;
+            personNode.style.top = `${py}%`;
+            personNode.style.transform = `translate(-50%, -50%) translateZ(0) scale(${scaleRatio})`;
+            personNode.dataset.x = px;
+            personNode.dataset.y = py;
+            personNode.dataset.name = personName;
+            personNode.dataset.role = personRole;
+            personNode.dataset.department = personDepartment;
+            personNode.dataset.active = String(personActive);
+            personNode.dataset.website = personLinks.website || "";
+            personNode.dataset.linkedin = personLinks.linkedin || "";
+            personNode.style.borderColor = dept.color;
+            personNode.style.boxShadow = `0 0 0 2px ${dept.color}`;
+            nodesLayer.appendChild(personNode);
+
+            addLine(toViewBox(x), toViewBox(y), toViewBox(px), toViewBox(py), "rgba(5, 195, 222, 0.8)", 0.4, 0.9);
+        });
+    });
+
+    // Departments connect to Hub only
+};
+
+const loadDepartments = async () => {
+    try {
+        const bust = Date.now();
+        const response = await fetch(`data/people.json?v=${bust}`, { cache: "no-store" });
+        if (!response.ok) {
+            throw new Error(`Failed to load data: ${response.status}`);
+        }
+        const data = await response.json();
+        try {
+            localStorage.setItem(PEOPLE_DATA_CACHE_KEY, JSON.stringify(data));
+        } catch (storageError) {
+            console.warn("People data cache write skipped.", storageError);
+        }
+
+        const rawDepartments = resolveRawDepartments(data);
+        departments = buildDepartmentsFromJson(rawDepartments);
+    } catch (error) {
+        console.error("Failed to load people data, trying cached data.", error);
+        let loadedFromCache = false;
+
+        try {
+            const cached = localStorage.getItem(PEOPLE_DATA_CACHE_KEY);
+            if (cached) {
+                const cachedData = JSON.parse(cached);
+                const rawDepartments = resolveRawDepartments(cachedData);
+                departments = buildDepartmentsFromJson(rawDepartments);
+                loadedFromCache = true;
+            }
+        } catch (cacheError) {
+            console.warn("Cached people data is not usable.", cacheError);
+        }
+
+        if (!loadedFromCache) {
+            console.error("Cached data unavailable, using fallback departments.");
+            departments = getSafeFallbackDepartments();
+        }
+    }
+
+    const memberCount = departments.reduce((total, dept) => total + (Array.isArray(dept.people) ? dept.people.length : 0), 0);
+    console.info(`Community graph loaded with ${memberCount} members across ${departments.length} departments.`);
+    renderGraph();
+    
+    // Focus automatico sul dipartimento se specificato nell'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const deptParam = urlParams.get('dept');
+    if (deptParam) {
+        setTimeout(() => {
+            const dept = departments.find(d => d.id === deptParam);
+            if (dept) {
+                focusOn(dept.pos.x, dept.pos.y, 1.2);
+                currentFocusX = dept.pos.x;
+                currentFocusY = dept.pos.y;
+            }
+        }, 300);
+    }
+};
+
+let currentFocusedNode = null;
+let currentFocusX = null;
+let currentFocusY = null;
+let currentView = 'graph';
+
+const viewGraphBtn = document.getElementById('view-graph');
+const viewListBtn = document.getElementById('view-list');
+const meshMain = document.querySelector('main.mesh-canvas');
+const listView = document.getElementById('list-view');
+const departmentsList = document.getElementById('departments-list');
+
+const switchView = (view) => {
+    currentView = view;
+    if (view === 'graph') {
+        meshMain.classList.remove('hidden');
+        listView.classList.add('hidden');
+        viewGraphBtn.classList.add('bg-white/10', 'shadow-lg');
+        viewListBtn.classList.remove('bg-white/10', 'shadow-lg');
+    } else {
+        meshMain.classList.add('hidden');
+        listView.classList.remove('hidden');
+        viewGraphBtn.classList.remove('bg-white/10', 'shadow-lg');
+        viewListBtn.classList.add('bg-white/10', 'shadow-lg');
+        renderList();
+    }
+};
+
+const renderList = () => {
+    departmentsList.innerHTML = '';
+    departments.forEach(dept => {
+        const deptCard = document.createElement('div');
+        deptCard.className = 'glass-panel rounded-2xl p-6 border border-white/10';
+        
+        const header = `
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 rounded-xl ${dept.borderClass} border-2 bg-background-dark/50 flex items-center justify-center ${dept.glowClass}">
+                        <span class="material-symbols-outlined ${dept.textClass} text-2xl">${dept.icon}</span>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold ${dept.textClass}">${dept.label}</h3>
+                        <p class="text-xs opacity-50 mt-1">${dept.description}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        const membersGrid = dept.people.map(person => {
+            const personName = person.name || 'Member';
+            const personRole = person.role || dept.label;
+            const isActive = typeof person.active === 'boolean' ? person.active : true;
+            const thumbs = getThumbSources(person.img);
+            
+            return `
+                <div class="member-card glass-panel rounded-xl p-4 border border-white/5 flex items-center gap-4">
+                    <img src="${thumbs.src}" ${thumbs.srcSet ? `srcset="${thumbs.srcSet}" sizes="64px"` : ''} 
+                         alt="${personName}" 
+                         class="dept-lead-img rounded-full border ${dept.borderClass}" 
+                         style="width: 128px !important; height: 128px !important; transform: scale(0.5) translateZ(0); margin: -32px;" />
+                    <div class="flex-1">
+                        <h4 class="font-bold">${personName}</h4>
+                        <p class="text-xs ${dept.textClass} uppercase tracking-widest mt-1">${personRole}</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="inline-flex items-center gap-1 text-[10px] ${isActive ? 'text-primary' : 'text-white/40'}">
+                                <span class="material-symbols-outlined text-[12px]">${isActive ? 'check_circle' : 'cancel'}</span>
+                                ${isActive ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                    </div>
+                    ${person.links?.website || person.links?.linkedin ? `
+                    <div class="flex gap-2">
+                        ${person.links?.website ? `<a href="${person.links.website}" target="_blank" class="size-8 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors">
+                            <span class="material-symbols-outlined text-sm">language</span>
+                        </a>` : ''}
+                        ${person.links?.linkedin ? `<a href="${person.links.linkedin}" target="_blank" class="size-8 rounded-lg border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors">
+                            <svg class="size-3 fill-white" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.07 1.41-2.07 2.86v5.49H9.46V9h3.41v1.56h.05c.47-.9 1.63-1.86 3.35-1.86 3.58 0 4.24 2.36 4.24 5.43v6.32zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+                        </a>` : ''}
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }).join('');
+        
+        deptCard.innerHTML = header + `<div class="grid grid-cols-1 md:grid-cols-2 gap-4">${membersGrid}</div>`;
+        departmentsList.appendChild(deptCard);
+    });
+};
+
+viewGraphBtn.addEventListener('click', () => switchView('graph'));
+viewListBtn.addEventListener('click', () => switchView('list'));
+
+loadDepartments();
+window.addEventListener("resize", renderGraph);
+
+nodesLayer.addEventListener("mouseover", (event) => {
+    const target = event.target.closest(".person-node, .dept-node");
+    if (!target) return;
+    if (target.classList.contains("hub-node")) {
+        return;
+    }
+});
+
+
+nodesLayer.addEventListener("mouseout", () => {});
+
+document.addEventListener("click", (event) => {
+    if (!event.target.closest(".person-node, .dept-node")) {
+        resetFocus();
+        currentFocusedNode = null;
+        currentFocusX = null;
+        currentFocusY = null;
+        profilePanel.classList.add("profile-hidden");
+        departmentPanel.classList.add("profile-hidden");
+    }
+});
+
+nodesLayer.addEventListener("click", (event) => {
+    const personTarget = event.target.closest(".person-node");
+    if (personTarget) {
+        event.stopPropagation();
+        
+        const x = Number(personTarget.dataset.x);
+        const y = Number(personTarget.dataset.y);
+        
+        // Zoom solo se è un nodo diverso o con coordinate diverse
+        if (currentFocusedNode !== personTarget || currentFocusX !== x || currentFocusY !== y) {
+            if (!Number.isNaN(x) && !Number.isNaN(y)) {
+                focusOn(x, y, 1.5);
+                currentFocusedNode = personTarget;
+                currentFocusX = x;
+                currentFocusY = y;
+            }
+        }
+        
+        const name = personTarget.dataset.name || "Member";
+        const role = personTarget.dataset.role || "Team";
+        const department = personTarget.dataset.department || "";
+        const isActive = personTarget.dataset.active !== "false";
+        const website = personTarget.dataset.website || "";
+        const linkedin = personTarget.dataset.linkedin || "";
+
+        profileImage.src = personTarget.src || profileImage.src;
+        profileName.textContent = name;
+        profileRole.textContent = role;
+        profileDepartment.textContent = department;
+        profileActiveIcon.textContent = isActive ? "check_circle" : "cancel";
+        profileActiveText.textContent = isActive ? "Active" : "Inactive";
+        profileActiveIcon.style.color = isActive ? "#05c3de" : "#83af9b";
+        profileActiveText.style.color = isActive ? "#05c3de" : "#83af9b";
+
+        if (website) {
+            profileWebsite.href = website;
+            profileWebsite.classList.remove("opacity-40", "pointer-events-none");
+        } else {
+            profileWebsite.href = "#";
+            profileWebsite.classList.add("opacity-40", "pointer-events-none");
+        }
+
+        if (linkedin) {
+            profileLinkedin.href = linkedin;
+            profileLinkedin.classList.remove("opacity-40", "pointer-events-none");
+        } else {
+            profileLinkedin.href = "#";
+            profileLinkedin.classList.add("opacity-40", "pointer-events-none");
+        }
+
+        profilePanel.classList.remove("profile-hidden");
+        departmentPanel.classList.add("profile-hidden");
+        return;
+    }
+
+    const deptTarget = event.target.closest(".dept-node");
+    if (deptTarget && !deptTarget.classList.contains("hub-node")) {
+        event.stopPropagation();
+        
+        const x = Number(deptTarget.dataset.x);
+        const y = Number(deptTarget.dataset.y);
+        
+        // Zoom solo se è un nodo diverso o con coordinate diverse
+        if (currentFocusedNode !== deptTarget || currentFocusX !== x || currentFocusY !== y) {
+            if (!Number.isNaN(x) && !Number.isNaN(y)) {
+                focusOn(x, y, 1.2);
+                currentFocusedNode = deptTarget;
+                currentFocusX = x;
+                currentFocusY = y;
+            }
+        }
+        
+        const deptId = deptTarget.dataset.deptId;
+        const dept = departments.find((item) => item.id === deptId);
+        if (!dept) return;
+
+        const lead = dept.lead || dept.people?.find((person) => person.name) || dept.people?.[0] || {};
+        const leadLinks = lead.links || {};
+
+        deptName.textContent = dept.label || "Department";
+        deptDescription.textContent = dept.description || "";
+        
+        // Carica immagine lead con srcset ottimizzato
+        const leadImg = lead.img || "";
+        if (leadImg) {
+            const leadThumbs = getThumbSources(leadImg);
+            deptLeadImage.src = leadThumbs.src;
+            if (leadThumbs.srcSet) {
+                deptLeadImage.srcset = leadThumbs.srcSet;
+                deptLeadImage.sizes = "48px";
+            }
+        } else {
+            deptLeadImage.src = "";
+            deptLeadImage.srcset = "";
+        }
+        
+        deptLeadName.textContent = lead.name || "Lead";
+        deptLeadRole.textContent = lead.role || "";
+
+        if (leadLinks.website) {
+            deptLeadWebsite.href = leadLinks.website;
+            deptLeadWebsite.classList.remove("opacity-40", "pointer-events-none");
+        } else {
+            deptLeadWebsite.href = "#";
+            deptLeadWebsite.classList.add("opacity-40", "pointer-events-none");
+        }
+
+        if (leadLinks.linkedin) {
+            deptLeadLinkedin.href = leadLinks.linkedin;
+            deptLeadLinkedin.classList.remove("opacity-40", "pointer-events-none");
+        } else {
+            deptLeadLinkedin.href = "#";
+            deptLeadLinkedin.classList.add("opacity-40", "pointer-events-none");
+        }
+
+        departmentPanel.classList.remove("profile-hidden");
+        profilePanel.classList.add("profile-hidden");
+    }
+});
+</script>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="scripts/magic-bento.js"></script>
+</body></html>
