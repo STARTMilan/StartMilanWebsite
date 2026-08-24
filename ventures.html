@@ -1,177 +1,2065 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>START Milan | Partnership Network Map</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#003087",
-                        "background-dark": "#00002c",
-                        "neon-cyan": "#05c3de",
-                        "charcoal-dark": "#00002c",
-                    },
-                    fontFamily: {
-                        "display": ["Prompt", "sans-serif"]
-                    }
-                },
-            },
-        }
-    </script>
-    <style type="text/tailwindcss">
-        :root { --primary: #003087; --neon-cyan: #05c3de; } .grid-pattern { background-image: radial-gradient(circle, #001e62 0.5px, transparent 0.5px); background-size: 40px 40px; } .glass { background: rgba(0, 30, 98, 0.6); backdrop-filter: blur(20px); border:
-        1px solid rgba(255, 255, 255, 0.05); } .map-container { background: radial-gradient(circle at 50% 40%, #001e62 0%, #00002c 100%); } .glow-milan { box-shadow: 0 0 40px 15px rgba(0, 48, 135, 0.3); } .arc-cyan { stroke: var(--neon-cyan); filter:
-        drop-shadow(0 0 8px var(--neon-cyan)); opacity: 0.5; stroke-dasharray: 2, 4; } .italy-3d-shadow { filter: drop-shadow(15px 15px 30px rgba(0, 0, 44, 0.8)); } .map-zoom { --zoom-x: 50%; --zoom-y: 50%; position: relative; height: 100%; width: auto;
-        } .map-black { filter: grayscale(1) brightness(0.5) contrast(2.5) drop-shadow(0 0 6px rgba(0, 48, 135, 0.55)); } .zoom-target { height: 100%; width: auto; transform-origin: var(--zoom-x) var(--zoom-y); transition: transform 300ms ease; } .map-zoom.zoomed
-        .zoom-target { transform: scale(1.5); } .map-overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; } .map-overlay .zoom-node { pointer-events: auto; cursor: pointer; } .map-overlay a:focus, .map-overlay a:focus-visible
-        { outline: none; } .map-overlay text { font-family: Prompt, sans-serif; letter-spacing: 0.08em; } .partner-dot { fill: var(--neon-cyan); filter: drop-shadow(0 0 8px var(--neon-cyan)); } .hq-dot { fill: var(--primary); filter: drop-shadow(0 0 12px
-        var(--primary)); } .pulse { animation: pulse-ring 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; } @keyframes pulse-ring { 0% { transform: scale(0.95); opacity: 0.8; } 50% { transform: scale(1.05); opacity: 0.4; } 100% { transform: scale(0.95); opacity:
-        0.8; } }
-    </style>
-    <link href="magic-bento.css" rel="stylesheet" />
+<meta charset="UTF-8">
+<title>Italy Venture Observatory</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080b10; --panel:#0e131b; --panel-border:rgba(90,230,180,0.18);
+    --grid:rgba(255,255,255,0.05); --text:#e7ece9; --dim:#7c8a89;
+    --accent:#3ee6a8; --accent-dim:rgba(62,230,168,0.15);
+  }
+  html,body{ margin:0; padding:0; height:100%; background:var(--bg); color:var(--text); }
+  body{ font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; }
+  .mono{ font-family:'IBM Plex Mono',monospace; }
+  #wrap{ display:flex; flex-direction:column; height:100%; position:relative; }
+
+  header{
+    padding:16px 22px 14px; border-bottom:1px solid var(--panel-border);
+    background:linear-gradient(180deg, #0b0f16 0%, #080b10 100%);
+    display:flex; align-items:flex-start; justify-content:space-between; gap:20px;
+    flex-wrap:wrap; position:relative; z-index:20;
+  }
+  header::after{
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height:1px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent); opacity:0.5;
+  }
+  .back-home{ display:inline-block; font-size:10.5px; color:var(--dim); text-decoration:none;
+    letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; transition:color 0.15s ease; }
+  .back-home:hover{ color:var(--accent); }
+  .title-block{ display:flex; align-items:center; gap:12px; }
+  .status-dot{ width:8px; height:8px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 8px 2px var(--accent); animation: pulse-dot 2s infinite; }
+  @keyframes pulse-dot{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+  h1{ font-size:16px; margin:0; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; }
+  header p{ margin:3px 0 0; font-size:11px; color:var(--dim); letter-spacing:0.3px; }
+  .status-pill{ font-size:10px; letter-spacing:1.5px; padding:5px 10px; border:1px solid var(--panel-border);
+    border-radius:3px; color:var(--accent); background:var(--accent-dim); display:flex; align-items:center; gap:7px;
+    text-transform:uppercase; white-space:nowrap; }
+
+  #controls{ display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  #legend{ display:flex; gap:10px; flex-wrap:wrap; font-size:10px; align-items:center; max-width:520px; }
+  .legend-item{ display:flex; align-items:center; gap:5px; cursor:pointer; user-select:none; color:var(--dim);
+    letter-spacing:0.3px; text-transform:uppercase; white-space:nowrap; }
+  .legend-item.off{ opacity:0.3; }
+  .dot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+
+  #map{ flex:1; background:var(--bg); }
+
+  #stat-rail{
+    position:absolute; top:14px; left:16px; z-index:15; background:rgba(10,14,20,0.88);
+    border:1px solid var(--panel-border); border-radius:6px; padding:12px 16px; backdrop-filter: blur(6px);
+    min-width:170px;
+  }
+  #stat-rail .row{ display:flex; justify-content:space-between; gap:18px; padding:4px 0; font-size:11px; }
+  #stat-rail .row + .row{ border-top:1px solid var(--grid); }
+  #stat-rail .label{ color:var(--dim); letter-spacing:0.5px; text-transform:uppercase; font-size:9.5px; }
+  #stat-rail .value{ color:var(--accent); font-weight:600; }
+
+  #coords{
+    position:absolute; bottom:14px; left:16px; z-index:15; font-size:10.5px; color:var(--dim);
+    letter-spacing:0.5px; background:rgba(10,14,20,0.8); padding:5px 10px; border-radius:4px;
+    border:1px solid var(--panel-border);
+  }
+  #coords span{ color:var(--accent); }
+
+  #note{
+    position:absolute; bottom:14px; right:16px; z-index:15; font-size:10px; color:var(--dim);
+    background:rgba(10,14,20,0.8); padding:6px 10px; border-radius:4px; border:1px solid var(--panel-border);
+    max-width:260px; line-height:1.4;
+  }
+
+  .startup-pin{ width:26px; height:26px; position:relative; display:flex; align-items:center; justify-content:center; }
+  .startup-pin .core{
+    width:24px; height:24px; border-radius:50%; background:#0c1016;
+    border:2px solid var(--pin-color, var(--accent));
+    box-shadow:0 0 8px -1px var(--pin-color, var(--accent)), 0 2px 5px rgba(0,0,0,0.6);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--pin-color, var(--accent));
+  }
+
+  .marker-cluster-custom{
+    background: rgba(62,230,168,0.15); border:1px solid var(--accent); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--accent); font-family:'IBM Plex Mono',monospace; font-weight:600;
+    box-shadow:0 0 10px rgba(62,230,168,0.3);
+  }
+
+  .leaflet-popup-content-wrapper{ background:#0e131b; color:var(--text); border:1px solid var(--panel-border);
+    border-radius:6px; font-family:'Inter',sans-serif; box-shadow:0 8px 30px rgba(0,0,0,0.6); }
+  .leaflet-popup-tip{ background:#0e131b; border:1px solid var(--panel-border); }
+  .popup-name{ font-weight:700; font-size:14px; margin:0 0 3px; color:#fff; }
+  .popup-sector{ font-size:9.5px; color:var(--accent); margin:0 0 8px; text-transform:uppercase; letter-spacing:1px;
+    font-family:'IBM Plex Mono',monospace; }
+  .popup-row{ font-size:11.5px; margin:0 0 4px; color:#aab3b0; }
+  .popup-row b{ color:#d7dedc; font-weight:600; }
+  .popup-investors{ font-size:11px; margin-top:6px; color:#8f9d9a; line-height:1.5; }
+
+  .leaflet-control-zoom a{ background:#0e131b !important; color:var(--accent) !important; border:1px solid var(--panel-border) !important; }
+  .leaflet-control-attribution{ background:rgba(8,11,16,0.7) !important; color:var(--dim) !important; }
+  .leaflet-control-attribution a{ color:var(--dim) !important; }
+
+  /* START Milan HQ marker */
+  @keyframes pulse-ring{
+    0%{ transform:scale(0.7); opacity:0.6; } 80%{ transform:scale(1.5); opacity:0; } 100%{ transform:scale(1.5); opacity:0; }
+  }
+  .hq-marker-wrap{ display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .hq-label{
+    background:var(--accent); color:#04140e; font-family:'IBM Plex Mono',monospace; font-weight:700;
+    font-size:9px; letter-spacing:1.5px; padding:2px 7px; border-radius:3px; white-space:nowrap;
+    box-shadow:0 0 8px rgba(62,230,168,0.6);
+  }
+  .hq-core-wrap{ position:relative; width:38px; height:38px; display:flex; align-items:center; justify-content:center; }
+  .hq-core-wrap .ring{
+    position:absolute; inset:-8px; border-radius:50%; border:1.5px solid var(--accent);
+    opacity:0.5; animation: pulse-ring 2.2s ease-out infinite;
+  }
+  .hq-core-wrap .hq-core{
+    width:38px; height:38px; border-radius:50%; background:#0a1210;
+    border:2.5px solid var(--accent); box-shadow:0 0 16px 1px rgba(62,230,168,0.55), 0 2px 8px rgba(0,0,0,0.6);
+    display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; z-index:2;
+  }
+  .hq-core-wrap .hq-core img{ width:72%; height:72%; object-fit:contain; }
+
+  /* Sort / color-mode controls */
+  #mode-toggle{ display:flex; gap:6px; }
+  .toggle-btn{
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.8px; text-transform:uppercase;
+    padding:5px 10px; border-radius:3px; border:1px solid var(--panel-border); color:var(--dim);
+    background:transparent; cursor:pointer; transition:all .15s ease;
+  }
+  .toggle-btn:hover{ color:var(--text); }
+  .toggle-btn.active{ color:var(--accent); border-color:var(--accent); background:var(--accent-dim); }
+
+  #size-legend{ display:none; align-items:center; gap:8px; font-size:10px; color:var(--dim); }
+  #size-legend .bar{
+    width:120px; height:6px; border-radius:3px;
+    background:linear-gradient(90deg, rgba(62,230,168,0.25), rgba(62,230,168,1));
+  }
+
+  /* Filter bar: sector dropdown + size slider */
+  #filter-bar{ display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; }
+  .filter-group{ display:flex; flex-direction:column; gap:4px; }
+  .filter-label{ font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--dim); }
+  #sector-select{
+    background:#0e131b; color:var(--text); border:1px solid var(--panel-border); border-radius:3px;
+    padding:5px 8px; font-size:11px; min-width:170px; cursor:pointer;
+  }
+  #sector-select:focus{ outline:1px solid var(--accent); }
+  #size-slider{
+    width:160px; accent-color: var(--accent); cursor:pointer;
+  }
+  #size-slider-value{ color:var(--accent); }
+
+  /* Sortable deal list panel */
+  #list-panel{
+    position:absolute; top:14px; right:16px; z-index:16; width:340px; max-height:calc(100% - 90px);
+    background:rgba(10,14,20,0.94); border:1px solid var(--panel-border); border-radius:6px;
+    backdrop-filter: blur(6px); display:none; flex-direction:column; overflow:hidden;
+  }
+  #list-panel.open{ display:flex; }
+  #list-panel-header{
+    display:flex; justify-content:space-between; align-items:center; padding:10px 12px;
+    border-bottom:1px solid var(--panel-border); font-family:'IBM Plex Mono',monospace;
+    font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--dim);
+  }
+  #list-panel-header button{ background:none; border:none; color:var(--dim); cursor:pointer; font-size:13px; line-height:1; }
+  #list-table-wrap{ overflow-y:auto; }
+  #list-table{ width:100%; border-collapse:collapse; font-size:11px; }
+  #list-table th{
+    position:sticky; top:0; background:#101720; text-align:left; padding:7px 10px; cursor:pointer;
+    font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.6px; text-transform:uppercase;
+    color:var(--dim); border-bottom:1px solid var(--panel-border); user-select:none; white-space:nowrap;
+  }
+  #list-table th:hover{ color:var(--accent); }
+  #list-table th.sorted{ color:var(--accent); }
+  #list-table td{ padding:7px 10px; border-bottom:1px solid var(--grid); color:#c7cfcc; cursor:pointer; }
+  #list-table tr:hover td{ background:rgba(62,230,168,0.06); color:#fff; }
+  #list-table td.num{ font-family:'IBM Plex Mono',monospace; color:var(--accent); text-align:right; }
+  #list-table td.company{ font-weight:600; color:#e7ece9; }
+</style>
 </head>
-
-<body class="bg-background-dark font-display text-white overflow-hidden">
-    <div class="flex h-screen w-full flex-col">
-        <header class="flex h-20 items-center justify-between px-10 z-50">
-                <a href="index.html" class="flex items-center gap-4 hover:opacity-80 transition-opacity cursor-pointer">
-                    <span class="material-symbols-outlined text-white text-xl">arrow_back</span>
-                    <div class="flex flex-col items-center justify-center">
-                        <img src="./Logo_white.png" alt="START Milan logo" class="h-9 w-auto" />
-                        <p class="text-[10px] text-primary/80 font-bold uppercase tracking-[0.2em]">National Partnership Network</p>
-                    </div>
-                </a>
-            <div class="flex items-center gap-8 text-xs font-medium tracking-widest uppercase text-white/60">
-                <span class="text-white border-b border-primary pb-1">Observatory</span>
-            </div>
-        </header>
-        <div class="flex flex-1 relative">
-            <main class="flex-1 map-container grid-pattern relative overflow-hidden flex items-center justify-center">
-                <div class="relative w-full h-[85%] flex items-center justify-center italy-3d-shadow">
-                    <div class="map-zoom" id="ventures-map">
-                        <div class="zoom-target">
-                            <img class="h-full w-auto map-black" src="models/it.svg" alt="Italy ventures map" />
-                            <svg class="map-overlay" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-label="Ventures map">
-<g opacity="0.7">
-<path class="arc-cyan" d="M335 162 Q 295 185 260 200" fill="none" stroke-width="1.5"></path>
-<path class="arc-cyan" d="M335 162 Q 380 210 430 260" fill="none" stroke-width="1.5"></path>
-<path class="arc-cyan" d="M335 162 Q 430 300 505 468" fill="none" stroke-width="1.5"></path>
-<path class="arc-cyan" d="M335 162 Q 520 340 633 539" fill="none" stroke-width="1.5"></path>
-</g>
-<a class="zoom-node" data-zoom-x="33.5%" data-zoom-y="16.2%" href="index.html" aria-label="Go to START Milan landing page">
-<circle class="hq-dot" cx="335" cy="162" r="8"></circle>
-<circle class="hq-dot" cx="335" cy="162" r="18" fill="none" stroke="rgba(0, 48, 135, 0.35)" stroke-width="2">
-<animate attributeName="r" values="12;20;12" dur="2.6s" repeatCount="indefinite"></animate>
-</circle>
-<text x="360" y="150" font-size="14" fill="#ffffff" font-weight="700">START Milan</text>
-<text x="360" y="168" font-size="10" fill="#003087" font-weight="700">HQ HUB</text>
-</a>
-
-<g class="zoom-node" data-zoom-x="26%" data-zoom-y="20%">
-<title>Turin Partner</title>
-<circle class="partner-dot" cx="260" cy="200" r="5"></circle>
-</g>
-<g class="zoom-node" data-zoom-x="43%" data-zoom-y="26%">
-<title>Bologna Partner</title>
-<circle class="partner-dot" cx="430" cy="260" r="5"></circle>
-</g>
-<g class="zoom-node" data-zoom-x="50.5%" data-zoom-y="46.8%">
-<title>Rome Partner</title>
-<circle class="partner-dot" cx="505" cy="468" r="5"></circle>
-</g>
-<g class="zoom-node" data-zoom-x="63.3%" data-zoom-y="53.9%">
-<title>Naples Partner</title>
-<circle class="partner-dot" cx="633" cy="539" r="5"></circle>
-</g>
-</svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute left-10 bottom-10 glass p-6 rounded-lg w-72 pointer-events-none">
-                    <div class="mb-4">
-                        <h3 class="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-1">Network Detail</h3>
-                        <p class="text-lg font-semibold border-b border-white/10 pb-2">National Ecosystem</p>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-white/70">Total Partners</span>
-                            <span class="text-sm font-mono text-white">4</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-white/70">Primary Hubs</span>
-                            <span class="text-sm font-mono text-white">1</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-white/70">Active Connections</span>
-                            <span class="text-sm font-mono text-white">12</span>
-                        </div>
-                        <div class="pt-2">
-                            <div class="h-[1px] w-full bg-white/5 mb-3"></div>
-                            <p class="text-[10px] text-white/60 italic leading-relaxed">
-                                Observing data synchronization across all regional nodes. Connections indicate high-bandwidth strategic partnerships.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute top-0 right-10 flex flex-col items-end gap-6 pt-10">
-                    <div class="text-right">
-                        <p class="text-[10px] text-white/60 font-bold uppercase tracking-[0.3em]">Status</p>
-                        <div class="flex items-center gap-2 justify-end mt-1">
-                            <span class="h-1.5 w-1.5 rounded-full bg-[#83af9b] shadow-[0_0_8px_#83af9b]"></span>
-                            <span class="text-xs font-medium text-white/70">SYSTEM OPERATIONAL</span>
-                        </div>
-                    </div>
-                    <div class="glass p-4 rounded flex flex-col gap-3">
-                        <div class="flex items-center gap-3">
-                            <div class="h-2 w-2 bg-primary shadow-[0_0_10px_var(--primary)]"></div>
-                            <span class="text-[10px] tracking-widest text-white/70 uppercase">Core HQ</span>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="h-2 w-2 rounded-full bg-neon-cyan shadow-[0_0_10px_var(--neon-cyan)]"></div>
-                            <span class="text-[10px] tracking-widest text-white/70 uppercase">Partner Node</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="absolute bottom-6 right-6 opacity-20 pointer-events-none">
-                    <p class="text-[9px] font-mono text-white/60">45.4642° N, 9.1900° E (Milan Hub)</p>
-                </div>
-            </main>
-        </div>
+<body>
+<div id="wrap">
+  <header>
+    <div>
+      <a href="index.html" class="back-home mono">&larr; START Milan</a>
+      <div class="title-block">
+        <span class="status-dot"></span>
+        <h1>Italy Venture Observatory</h1>
+      </div>
+      <p class="mono">98 deals tracked &middot; Jan &ndash; Jul 2026 &middot; city-level HQ resolution</p>
     </div>
+    <div id="controls">
+      <div id="filter-bar">
+        <div class="filter-group">
+          <label class="mono filter-label" for="sector-select">Sector</label>
+          <select id="sector-select" class="mono"></select>
+        </div>
+        <div class="filter-group">
+          <label class="mono filter-label" for="size-slider">Min round: <span id="size-slider-value">&euro;0M</span></label>
+          <input type="range" id="size-slider" min="0" max="110" step="0.5" value="0">
+        </div>
+        <button class="toggle-btn" id="btn-list-toggle">Deal List</button>
+        <button class="toggle-btn" id="btn-reset-filters">Reset</button>
+      </div>
+      <div id="legend"></div>
+      <div class="status-pill mono"><span class="status-dot" style="width:6px;height:6px;"></span>system operational</div>
+    </div>
+  </header>
+  <div id="map">
+    <div id="stat-rail" class="mono">
+      <div class="row"><span class="label">Deals Shown</span><span class="value" id="stat-total">--</span></div>
+      <div class="row"><span class="label">Cities</span><span class="value" id="stat-cities">--</span></div>
+      <div class="row"><span class="label">Total Raised</span><span class="value" id="stat-raised">--</span></div>
+      <div class="row"><span class="label">Sectors</span><span class="value" id="stat-sectors">--</span></div>
+    </div>
+    <div id="coords" class="mono">41.9&deg; N, 12.5&deg; E <span>(Italy)</span></div>
+    <div id="note">4 deals with broken/non-Italian HQ data (fictional or foreign locations) were excluded from the map.</div>
+    <div id="list-panel">
+      <div id="list-panel-header">
+        <span>Deals &middot; click header to sort</span>
+        <button id="list-close">&times;</button>
+      </div>
+      <div id="list-table-wrap">
+        <table id="list-table">
+          <thead>
+            <tr>
+              <th data-key="name">Company</th>
+              <th data-key="sector">Sector</th>
+              <th data-key="round" class="num">Round (&euro;M)</th>
+              <th data-key="city">City</th>
+            </tr>
+          </thead>
+          <tbody id="list-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <script>
-        const mapEl = document.getElementById("ventures-map");
-        const zoomNodes = mapEl ? .querySelectorAll(".zoom-node") || [];
+<script>
+const SECTOR_COLORS = {
+  "Fintech": "#3ee6a8", "Insurtech": "#e6b23e", "Life Sciences": "#e6547a",
+  "Proptech": "#4fb3ff", "Food": "#ff9d4d", "Media & Ad": "#b18aff",
+  "Mobility & Smart City": "#9be64d", "Industrial Tech": "#4de6d6", "Enterprise Tech": "#8a97a3",
+  "Space Tech": "#c9a7ff", "Energy": "#ffd166", "Climate Tech": "#7bd389",
+  "Cleantech": "#5fd3a6", "Cybersecurity": "#ff6b6b", "Edtech": "#ffb84d",
+  "Consumer Services": "#f28fb0", "Quantum": "#7ee8fa", "Social Network": "#ff8ac9",
+  "Web3 & Crypto": "#f7b731", "Travel & Hospitality": "#59c9ff", "eCommerce & Marketplace": "#c4e659"
+};
 
-        const setZoomOrigin = (node) => {
-            const x = node.getAttribute("data-zoom-x") || "50%";
-            const y = node.getAttribute("data-zoom-y") || "50%";
-            mapEl.style.setProperty("--zoom-x", x);
-            mapEl.style.setProperty("--zoom-y", y);
-            mapEl.classList.add("zoomed");
-        };
+const deals = [
+{
+"name": "CareGlance S.r.l.",
+"sector": "Industrial Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "3.5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "CDP Venture Capital",
+"follow1": "Eureka Venture SGR",
+"follow2": "LIFTT",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "TeiaCare",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "7",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "P101 SGR",
+"follow1": "Namarel",
+"follow2": "Inderhabs",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Niulinx",
+"sector": "Mobility & Smart City",
+"city": "Cernusco Sul Naviglio",
+"lat": 45.5325,
+"lng": 9.3389,
+"round": "38",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "a2a",
+"follow1": "CDP Venture Capital",
+"follow2": "Ferrovie dello Stato",
+"follow3": "Pirelli",
+"follow4": "Falck Family Office",
+"debt": ""
+},
+{
+"name": "Wearable Robotics",
+"sector": "Industrial Tech",
+"city": "Pisa",
+"lat": 43.7228,
+"lng": 10.4017,
+"round": "5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "CDP Venture Capital",
+"follow1": "MITO Technology",
+"follow2": "LIFTT",
+"follow3": "SIMEST",
+"follow4": "RoboIT",
+"debt": ""
+},
+{
+"name": "Ipermoney",
+"sector": "Fintech",
+"city": "Padua",
+"lat": 45.4064,
+"lng": 11.8768,
+"round": "",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "3M Stp",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Roboze",
+"sector": "Industrial Tech",
+"city": "Bari",
+"lat": 41.1171,
+"lng": 16.8719,
+"round": "",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Rule 1 Ventures",
+"follow1": "Privcorp Ventures",
+"follow2": "Heather Podesta",
+"follow3": "Gary Ang",
+"follow4": "Tholus Capital",
+"debt": ""
+},
+{
+"name": "Foreverland",
+"sector": "Food",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "6",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Kost Capital",
+"follow1": "Maia Ventures",
+"follow2": "CDP Venture Capital",
+"follow3": "Linfa agrifoodtech fund",
+"follow4": "Newtree Impact",
+"debt": ""
+},
+{
+"name": "Dronus",
+"sector": "Space Tech",
+"city": "Trieste",
+"lat": 45.6495,
+"lng": 13.7768,
+"round": "15",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Algebris",
+"follow1": "Azimut ELTIF",
+"follow2": "CDP Venture Capital",
+"follow3": "SIMEST",
+"follow4": "Eni Next",
+"debt": ""
+},
+{
+"name": "Subbyx",
+"sector": "eCommerce & Marketplace",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "30",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Systemiq Capital",
+"follow1": "Azimut",
+"follow2": "Flashpoint",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Trifoglio",
+"sector": "Mobility & Smart City",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "30",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "",
+"follow1": "Luca Pretto",
+"follow2": "Paolo Frigati",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "CiaoDott",
+"sector": "Enterprise Tech",
+"city": "Albiate",
+"lat": 45.6596,
+"lng": 9.2534,
+"round": "1.5",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "The Techshop",
+"follow1": "Vento",
+"follow2": "Club degli Investitori",
+"follow3": "Growth Engine",
+"follow4": "Alpha Venture",
+"debt": ""
+},
+{
+"name": "Alomana",
+"sector": "Enterprise Tech",
+"city": "Grottaglie",
+"lat": 40.5389,
+"lng": 17.4342,
+"round": "4",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "Italia Venture II",
+"follow2": "Founders Factory",
+"follow3": "Kairos Ventures",
+"follow4": "Gresilent Holdings",
+"debt": ""
+},
+{
+"name": "UpSurgeOn",
+"sector": "Life Sciences",
+"city": "Assago",
+"lat": 45.4025,
+"lng": 9.135,
+"round": "5",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "Simest S.p.A",
+"follow2": "Deep Blue Ventures",
+"follow3": "Azimut Libera Impresa",
+"follow4": "FBH S.p.A",
+"debt": ""
+},
+{
+"name": "Mr. Franz (HINT)",
+"sector": "Travel & Hospitality",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "0.5",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Business Angels",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Accudire",
+"sector": "Enterprise Tech",
+"city": "Verona",
+"lat": 45.4384,
+"lng": 10.9916,
+"round": "1",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Business Angels",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Mirai Robotics",
+"sector": "Mobility & Smart City",
+"city": "Bari",
+"lat": 41.1171,
+"lng": 16.8719,
+"round": "3.5",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Primo Capital",
+"follow1": "Techshop",
+"follow2": "40Jemz Ventures",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Gyala",
+"sector": "Enterprise Tech",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "4",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Deep Ocean SGR",
+"follow1": "Terna Forward",
+"follow2": "CDP Venture Capital",
+"follow3": "Ventive",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Cleafy",
+"sector": "Fintech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "12",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "United Ventures",
+"follow1": "eCAPITAL",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Rent2Cash",
+"sector": "Fintech",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "100",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "International investment fund",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": "Yes"
+},
+{
+"name": "Flowy",
+"sector": "Mobility & Smart City",
+"city": "Florence",
+"lat": 43.7696,
+"lng": 11.2558,
+"round": "1",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "CrossConnect",
+"follow1": "Business Angels",
+"follow2": "Maggioli Group",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Qura",
+"sector": "Life Sciences",
+"city": "Mirandola",
+"lat": 44.8891,
+"lng": 11.0664,
+"round": "1.5",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "United Ventures",
+"follow1": "Vento",
+"follow2": "Italian Angels for Growth",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Techvisory",
+"sector": "Enterprise Tech",
+"city": "Trento",
+"lat": 46.0679,
+"lng": 11.1211,
+"round": "2.5",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "institutional investors",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "ISAAC",
+"sector": "Industrial Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "14",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "360 Capital Partners",
+"follow2": "Axon Partners Group",
+"follow3": "Gruppo Azimut",
+"follow4": "Ring Capital",
+"debt": ""
+},
+{
+"name": "Quido",
+"sector": "Fintech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1.6",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "Vertis sgr",
+"follow1": "Frontech",
+"follow2": "SevenData",
+"follow3": "Edrom",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "AutoConnexa",
+"sector": "Fintech",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "4.4",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "Credit Agricole",
+"follow2": "Club degli Investitori",
+"follow3": "Lumen II",
+"follow4": "MBSpeedUp",
+"debt": ""
+},
+{
+"name": "Sinergy Flow",
+"sector": "Energy",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "7",
+"date": "Mar 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "360 Capital",
+"follow2": "Tech4Planet",
+"follow3": "Exergon",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Xference.ai",
+"sector": "Enterprise Tech",
+"city": "Cagliari",
+"lat": 39.2238,
+"lng": 9.1217,
+"round": "0.7",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Bastiano Sanna",
+"follow1": "Niccolo Perra",
+"follow2": "other business angels",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Intuos",
+"sector": "Space Tech",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "0.72",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Argo",
+"follow1": "Techstars",
+"follow2": "Ventive",
+"follow3": "business angels",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "GenoGra",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Maia Ventures",
+"follow1": "PM Holding",
+"follow2": "Terra Next",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "K3RX",
+"sector": "Industrial Tech",
+"city": "Imola",
+"lat": 44.3526,
+"lng": 11.7148,
+"round": "1.65",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Deep Ocean Capital",
+"follow1": "RoboIT",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Kampaay",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "Kairos Partners",
+"follow2": "Doorway",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "NANDO",
+"sector": "Climate Tech",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "3.3",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Maia Ventures",
+"follow1": "CDP Venture Capital",
+"follow2": "Fondo Piemonte Next",
+"follow3": "Club degli Investitori",
+"follow4": "LA4G",
+"debt": ""
+},
+{
+"name": "Contents",
+"sector": "Media & Ad",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "7",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Qatar Development Bank",
+"follow1": "Alkemia Capital",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "BeNewtral",
+"sector": "Cleantech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "7",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "NovaCapital",
+"follow2": "Eureka! Venture SGR",
+"follow3": "Tech4Planet",
+"follow4": "Edoardo Vernazza",
+"debt": ""
+},
+{
+"name": "EXE Engineering",
+"sector": "Cleantech",
+"city": "Poggibonsi",
+"lat": 43.4683,
+"lng": 11.15,
+"round": "0.55",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Eni Next",
+"follow1": "CDP Venture Capital",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "MON5",
+"sector": "Cybersecurity",
+"city": "Bologna",
+"lat": 44.4949,
+"lng": 11.3426,
+"round": "1.7",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Primo Capital",
+"follow1": "Forward Factory",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Omney",
+"sector": "Fintech",
+"city": "Bergamo",
+"lat": 45.6983,
+"lng": 9.6773,
+"round": "0.51",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "undisclosed investors",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "LianeCare",
+"sector": "Consumer Services",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "1",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Zest",
+"follow1": "Apside",
+"follow2": "Italian business angels",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Newcleo",
+"sector": "Energy",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "75",
+"date": "Feb 2026",
+"quarter": "Q1 2026",
+"lead": "Kairos",
+"follow1": "Indaco Ventures",
+"follow2": "Azimut",
+"follow3": "CERN pension fund",
+"follow4": "Walter Tosto",
+"debt": ""
+},
+{
+"name": "Bandosubito",
+"sector": "Enterprise Tech",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "2",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Zest",
+"follow1": "CDP Venture Capital",
+"follow2": "OpenT",
+"follow3": "Apside",
+"follow4": "Andrea Piol",
+"debt": ""
+},
+{
+"name": "Postura Ergonomics",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.75",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "CDP Venture Capital",
+"follow1": "Indaba",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Dilica",
+"sector": "Enterprise Tech",
+"city": "Parma",
+"lat": 44.8015,
+"lng": 10.3279,
+"round": "1",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Connect Ventures",
+"follow1": "Vento",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Lab-go",
+"sector": "Enterprise Tech",
+"city": "Bovisio-Masciago",
+"lat": 45.6103,
+"lng": 9.1519,
+"round": "1.4",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Robin Health",
+"sector": "eCommerce & Marketplace",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Step",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "BRUM",
+"sector": "eCommerce & Marketplace",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "5",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Italian Founders Fund",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "D-Orbit",
+"sector": "Space Tech",
+"city": "Como",
+"lat": 45.8081,
+"lng": 9.0852,
+"round": "110",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Azimut",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Liv4",
+"sector": "Enterprise Tech",
+"city": "Bologna",
+"lat": 44.4949,
+"lng": 11.3426,
+"round": "0.5",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Bernhard Konzet",
+"follow1": "Claudio Ognibene",
+"follow2": "Sean Milloy",
+"follow3": "Giovanni Giunchedi",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Butterfly Decisions",
+"sector": "Enterprise Tech",
+"city": "Florence",
+"lat": 43.7696,
+"lng": 11.2558,
+"round": "1.2",
+"date": "Jan 2026",
+"quarter": "Q1 2026",
+"lead": "Vertis",
+"follow1": "CyberXcelerator",
+"follow2": "Maria Grazia Campanile",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Svolgo",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "0.4",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Business Angels",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Doctorsa",
+"sector": "Life Sciences",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "1",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "PranaVentures",
+"follow1": "Vento",
+"follow2": "40Jemz Ventures",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Nous",
+"sector": "Food",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.3",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "dsm-firmenich Ventures",
+"follow1": "FoodSeed",
+"follow2": "Eatable Adventures",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "ZeroCO2",
+"sector": "Climate Tech",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "1",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "NTT Data Italia",
+"follow1": "CDP Venture Capital",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Nlcomp",
+"sector": "Industrial Tech",
+"city": "Monfalcone",
+"lat": 45.8181,
+"lng": 13.5314,
+"round": "1.15",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Ocean",
+"follow1": "Samer & Co. Shipping",
+"follow2": "CDP Venture Capital",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Klaro",
+"sector": "Fintech",
+"city": "Termoli",
+"lat": 42.0,
+"lng": 14.995,
+"round": "3",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "360 Capital",
+"follow1": "CDP Venture Capital",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Young Group",
+"sector": "Web3 & Crypto",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "22.5",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Azimut",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Sencare",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "0.5",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Consis",
+"follow1": "Gama Partecipazioni",
+"follow2": "Startup Bakery",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Musthad",
+"sector": "Climate Tech",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "1",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Alante Capital",
+"follow1": "Style IT",
+"follow2": "NextStep",
+"follow3": "Ragnarson",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Banyan Biotech",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Berrier Capital",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Archimede",
+"sector": "Space Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1.5",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Primo Capital",
+"follow1": "CDP Venture Capital",
+"follow2": "Plug and Play",
+"follow3": "Elis",
+"follow4": "40Jemz Ventures",
+"debt": ""
+},
+{
+"name": "Health Triage",
+"sector": "Life Sciences",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "3",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Vertis Sgr",
+"follow1": "Health 1",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "MDOTM Ltd.",
+"sector": "Fintech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "27",
+"date": "Jul 2026",
+"quarter": "Q3 2026",
+"lead": "Expedition Growth Capital",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Cloov",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "StyleIT",
+"follow1": "Maze Impact",
+"follow2": "Gateway Ventures",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "niino",
+"sector": "Mobility & Smart City",
+"city": "Pozzuoli",
+"lat": 40.8236,
+"lng": 14.1215,
+"round": "1.26",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "40Jemz Ventures",
+"follow1": "Michele Grazioli",
+"follow2": "Danila De Stefano",
+"follow3": "Massimiliano Squillace",
+"follow4": "Alessandro Braga",
+"debt": ""
+},
+{
+"name": "Sirius Game",
+"sector": "Edtech",
+"city": "Bressanone",
+"lat": 46.7159,
+"lng": 11.656,
+"round": "1.3",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Cassa Depositi e Prestiti",
+"follow1": "Trentino Invest",
+"follow2": "Ultra VC",
+"follow3": "28Digital",
+"follow4": "Add Value",
+"debt": ""
+},
+{
+"name": "Bestie Bite",
+"sector": "Social Network",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "1.5",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "G&G",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Soource",
+"sector": "Enterprise Tech",
+"city": "Bolzano",
+"lat": 46.4983,
+"lng": 11.3548,
+"round": "3",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Vertis",
+"follow1": "Tenity",
+"follow2": "360 Capital",
+"follow3": "Club degli Investitori",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "X-nano",
+"sector": "Climate Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "3.7",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Mito Tech Ventures",
+"follow1": "Pietro Fiorentini",
+"follow2": "Business angels",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "AIM Solutions",
+"sector": "Travel & Hospitality",
+"city": "Palermo",
+"lat": 38.1157,
+"lng": 13.3615,
+"round": "0.5",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Business Angels",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Sintropy.ai",
+"sector": "Energy",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Maia Ventures",
+"follow1": "FPR",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Ulisses",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Argo",
+"follow1": "Business Angels",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Rosso",
+"sector": "Life Sciences",
+"city": "Morozzo",
+"lat": 44.4394,
+"lng": 7.8683,
+"round": "3",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "360Cap",
+"follow1": "CDP Venture Capital",
+"follow2": "Angelini Investments",
+"follow3": "Business Angels",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Satispay",
+"sector": "Fintech",
+"city": "Turin",
+"lat": 45.0703,
+"lng": 7.6869,
+"round": "60",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Greyhound",
+"follow1": "Addition",
+"follow2": "Lightrock",
+"follow3": "Existing investors",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Vivilo",
+"sector": "Enterprise Tech",
+"city": "Cesena",
+"lat": 44.1391,
+"lng": 12.2431,
+"round": "0.628",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Business Angels",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Deeptree",
+"sector": "Fintech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "CDP Venture Capital",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "WeRoad",
+"sector": "Travel & Hospitality",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "58",
+"date": "Jun 2026",
+"quarter": "Q2 2026",
+"lead": "Airbnb",
+"follow1": "H14",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Lexroom",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "42.9",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Left Lane Capital",
+"follow1": "Base10 Partners",
+"follow2": "Eurazeo",
+"follow3": "Acurio Ventures",
+"follow4": "Entourage",
+"debt": ""
+},
+{
+"name": "Quantum Bridge Technologies",
+"sector": "Quantum",
+"city": "Rome",
+"lat": 41.9028,
+"lng": 12.4964,
+"round": "8",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Primo Capital SGR",
+"follow1": "Wayra",
+"follow2": "Cadenza VC",
+"follow3": "Club degli Investitori",
+"follow4": "HPE",
+"debt": ""
+},
+{
+"name": "Cosmico",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "12",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "P101 SGR",
+"follow1": "Prana Ventures",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Alkelux",
+"sector": "Industrial Tech",
+"city": "Sassari",
+"lat": 40.7259,
+"lng": 8.559,
+"round": "0.97",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Foodtech Accelerator",
+"follow1": "Eatable Adventures",
+"follow2": "Accelera Ventures",
+"follow3": "Banco di Sardegna",
+"follow4": "La Gemma Venture",
+"debt": ""
+},
+{
+"name": "Gyver",
+"sector": "Edtech",
+"city": "Brescia",
+"lat": 45.5416,
+"lng": 10.2118,
+"round": "1.4",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Brighteye",
+"follow1": "altitude",
+"follow2": "Vento Ventures",
+"follow3": "Zanichelli Venture",
+"follow4": "Antler",
+"debt": ""
+},
+{
+"name": "Pillar",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "12",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Earlybird Venture Capital",
+"follow1": "Base10 Partners",
+"follow2": "Italian Founders Fund",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Algorithmiq",
+"sector": "Quantum",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "18",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "United Ventures",
+"follow1": "CDP Venture Capital",
+"follow2": "Inventure",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Webidoo",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "25",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "IXC3",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "A-Cube",
+"sector": "Fintech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "4",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "P101",
+"follow1": "Sella Direct Ventures",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Wopta Assicurazioni",
+"sector": "Fintech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "5",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Make Your Credit",
+"follow1": "Holding B3",
+"follow2": "Business Angels",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Smartness",
+"sector": "Enterprise Tech",
+"city": "Arco",
+"lat": 45.9177,
+"lng": 10.885,
+"round": "47",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "United Ventures",
+"follow1": "CDP Venture Capital",
+"follow2": "Partech",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Always Friday",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1.05",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Vento Ventures",
+"follow1": "P3 Ventures",
+"follow2": "Marco Migliore",
+"follow3": "Arnaldo Borghesi",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "ViteSicure",
+"sector": "Insurtech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.5",
+"date": "May 2026",
+"quarter": "Q2 2026",
+"lead": "Ad4Ventures",
+"follow1": "Net Insurance",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Domyn",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "BNY",
+"follow1": "Rabobank",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "PepTiDa",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Mnesys scarl",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "PepTiDa (Mnesys syndicate)",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Mnesys scarl",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Caa2ad (Mnesys syndicate)",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Mnesys scarl",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Lactothera (Mnesys syndicate)",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Mnesys scarl",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Keynon Lab (Mnesys syndicate)",
+"sector": "Life Sciences",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "2.5",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Mnesys scarl",
+"follow1": "",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Neocad",
+"sector": "Industrial Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "0.55",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "40Jemz Ventures",
+"follow1": "CDP Venture Capital",
+"follow2": "Zest",
+"follow3": "Coima",
+"follow4": "Ariston",
+"debt": ""
+},
+{
+"name": "Cato",
+"sector": "Enterprise Tech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "1.6",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Italian Founders Fund",
+"follow1": "Heartfelt",
+"follow2": "Vento",
+"follow3": "BHeroes",
+"follow4": "Moonstone",
+"debt": ""
+},
+{
+"name": "Smartwage",
+"sector": "Enterprise Tech",
+"city": "Palermo",
+"lat": 38.1157,
+"lng": 13.3615,
+"round": "2",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Step Fund",
+"follow1": "Zest",
+"follow2": "",
+"follow3": "",
+"follow4": "",
+"debt": ""
+},
+{
+"name": "Casavo",
+"sector": "Proptech",
+"city": "Milan",
+"lat": 45.4642,
+"lng": 9.19,
+"round": "12.9",
+"date": "Apr 2026",
+"quarter": "Q2 2026",
+"lead": "Project A",
+"follow1": "Picus Capital",
+"follow2": "EVRG",
+"follow3": "",
+"follow4": "",
+"debt": ""
+}
+];
 
-        const clearZoom = () => {
-            mapEl.classList.remove("zoomed");
-        };
+const map = L.map('map', { zoomControl:true }).setView([42.3, 12.5], 6);
 
-        zoomNodes.forEach((node) => {
-            node.addEventListener("mouseenter", () => setZoomOrigin(node));
-            node.addEventListener("focus", () => setZoomOrigin(node));
-            node.addEventListener("mouseleave", clearZoom);
-            node.addEventListener("blur", clearZoom);
-        });
-    </script>
-    <script src="node_modules/gsap/dist/gsap.min.js"></script>
-    <script src="scripts/magic-bento.js"></script>
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+  subdomains: 'abcd', maxZoom: 19, opacity: 0.8
+}).addTo(map);
+
+const clusterGroups = {};
+const allMarkersBySector = {};
+
+function initials(name){
+  const clean = name.replace(/\(.*?\)/g,'').trim();
+  const parts = clean.split(/\s+/).filter(Boolean);
+  if(parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+  return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+}
+
+function jitter(lat, lng, i){
+  // small deterministic spread so same-city markers don't fully overlap
+  const angle = (i * 47) % 360 * Math.PI / 180;
+  const r = 0.004 + (i % 5) * 0.0015;
+  return [lat + Math.sin(angle) * r, lng + Math.cos(angle) * r];
+}
+
+const cityCounts = {};
+deals.forEach(d => { cityCounts[d.city] = (cityCounts[d.city] || 0) + 1; });
+const cityIndex = {};
+
+const masterCluster = L.markerClusterGroup({
+  maxClusterRadius: 45,
+  iconCreateFunction: function(cluster){
+    const count = cluster.getChildCount();
+    const size = count > 20 ? 46 : count > 8 ? 38 : 30;
+    return L.divIcon({
+      html: `<div class="marker-cluster-custom" style="width:${size}px;height:${size}px;font-size:${count>20?13:11}px;">${count}</div>`,
+      className: '', iconSize: [size, size]
+    });
+  }
+});
+
+function sectorIcon(d){
+  const color = SECTOR_COLORS[d.sector] || "#8a97a3";
+  return L.divIcon({
+    className: '',
+    html: `<div class="startup-pin" style="--pin-color:${color}"><div class="core">${initials(d.name)}</div></div>`,
+    iconSize: [26,26], iconAnchor: [13,13], popupAnchor: [0,-13]
+  });
+}
+
+deals.forEach((d, idx) => {
+  cityIndex[d.city] = (cityIndex[d.city] || 0) + 1;
+  const [lat, lng] = jitter(d.lat, d.lng, cityIndex[d.city] - 1);
+  d._idx = idx;
+
+  const marker = L.marker([lat, lng], { icon: sectorIcon(d) });
+
+  const investors = [d.lead, d.follow1, d.follow2, d.follow3, d.follow4].filter(Boolean).join(' &middot; ');
+  const roundLabel = d.round ? `&euro;${d.round}M` : 'undisclosed';
+
+  marker.bindPopup(`
+    <div class="popup-name">${d.name}</div>
+    <div class="popup-sector">${d.sector}</div>
+    <div class="popup-row"><b>${roundLabel}</b> &middot; ${d.city} &middot; ${d.date}${d.debt === 'Yes' ? ' &middot; debt round' : ''}</div>
+    ${investors ? `<div class="popup-investors">${investors}</div>` : ''}
+  `);
+  masterCluster.addLayer(marker);
+  d._marker = marker;
+  (allMarkersBySector[d.sector] = allMarkersBySector[d.sector] || []).push(marker);
+});
+
+map.addLayer(masterCluster);
+
+// --- START Milan HQ pin (always visible, not clustered) ---
+const startMilanIcon = L.divIcon({
+  className: '',
+  html: `<div class="hq-marker-wrap">
+           <span class="hq-label">HQ</span>
+           <div class="hq-core-wrap">
+             <div class="ring"></div>
+             <div class="hq-core"><img src="https://startmilan.it/Logo_white.png" alt="START Milan" /></div>
+           </div>
+         </div>`,
+  iconSize: [90, 60], iconAnchor: [45, 38], popupAnchor: [0, -40]
+});
+const startMilanMarker = L.marker([45.4642, 9.1900], { icon: startMilanIcon, zIndexOffset: 1000 }).addTo(map);
+startMilanMarker.bindPopup(`
+  <div class="popup-name">START Milan</div>
+  <div class="popup-sector">Student-Led Entrepreneurship Network</div>
+  <div class="popup-row">Milan &middot; national partnership network HQ</div>
+  <div class="popup-investors"><a href="https://startmilan.it" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">startmilan.it &#8599;</a></div>
+`);
+
+const legendEl = document.getElementById('legend');
+Object.keys(SECTOR_COLORS).forEach(sector => {
+  if(!allMarkersBySector[sector]) return;
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.innerHTML = `<span class="dot" style="background:${SECTOR_COLORS[sector]}; box-shadow:0 0 4px ${SECTOR_COLORS[sector]}"></span>${sector}`;
+  item.onclick = () => {
+    sectorSelect.value = sectorSelect.value === sector ? 'all' : sector;
+    applyFilters();
+  };
+  legendEl.appendChild(item);
+});
+
+function updateStats(visibleDeals){
+  const cityCount = new Set(visibleDeals.map(d => d.city)).size;
+  const sectorCount = new Set(visibleDeals.map(d => d.sector)).size;
+  const totalRaised = visibleDeals.reduce((sum, d) => sum + (parseFloat(d.round) || 0), 0);
+  document.getElementById('stat-total').textContent = visibleDeals.length;
+  document.getElementById('stat-cities').textContent = cityCount;
+  document.getElementById('stat-sectors').textContent = sectorCount;
+  document.getElementById('stat-raised').textContent = `\u20ac${totalRaised.toFixed(0)}M`;
+}
+
+map.on('mousemove', (e) => {
+  document.getElementById('coords').innerHTML =
+    `${e.latlng.lat.toFixed(2)}&deg; N, ${e.latlng.lng.toFixed(2)}&deg; E <span>(cursor)</span>`;
+});
+
+// --- Sector dropdown + deal-size slider: real filtering ---
+const sectorSelect = document.getElementById('sector-select');
+const sizeSlider = document.getElementById('size-slider');
+const sizeSliderValue = document.getElementById('size-slider-value');
+const resetBtn = document.getElementById('btn-reset-filters');
+
+const allSectorsSorted = Object.keys(SECTOR_COLORS).filter(s => allMarkersBySector[s]);
+sectorSelect.innerHTML = `<option value="all">All Sectors</option>` +
+  allSectorsSorted.map(s => `<option value="${s}">${s}</option>`).join('');
+
+function applyFilters(){
+  const sector = sectorSelect.value;
+  const minSize = parseFloat(sizeSlider.value) || 0;
+  sizeSliderValue.textContent = `\u20ac${minSize}M`;
+
+  const visible = [];
+  deals.forEach(d => {
+    const round = parseFloat(d.round) || 0;
+    const matches = (sector === 'all' || d.sector === sector) && round >= minSize;
+    const inCluster = masterCluster.hasLayer(d._marker);
+    if(matches && !inCluster) masterCluster.addLayer(d._marker);
+    if(!matches && inCluster) masterCluster.removeLayer(d._marker);
+    if(matches) visible.push(d);
+  });
+
+  document.querySelectorAll('.legend-item').forEach(item => {
+    const label = item.textContent.trim();
+    item.classList.toggle('off', sector !== 'all' && label !== sector);
+  });
+
+  updateStats(visible);
+  if(listPanel.classList.contains('open')) renderList();
+}
+
+sectorSelect.addEventListener('change', applyFilters);
+sizeSlider.addEventListener('input', applyFilters);
+resetBtn.addEventListener('click', () => {
+  sectorSelect.value = 'all';
+  sizeSlider.value = 0;
+  applyFilters();
+});
+
+// --- Deal list panel: sortable table ---
+const listPanel = document.getElementById('list-panel');
+const listToggleBtn = document.getElementById('btn-list-toggle');
+const listCloseBtn = document.getElementById('list-close');
+const listTbody = document.getElementById('list-tbody');
+const listHeaders = document.querySelectorAll('#list-table th');
+
+listToggleBtn.addEventListener('click', () => {
+  const isOpen = listPanel.classList.toggle('open');
+  listToggleBtn.classList.toggle('active', isOpen);
+  if(isOpen) renderList();
+});
+listCloseBtn.addEventListener('click', () => {
+  listPanel.classList.remove('open');
+  listToggleBtn.classList.remove('active');
+});
+
+let sortKey = 'round';
+let sortDir = -1; // -1 desc, 1 asc
+
+function renderList(){
+  const sector = sectorSelect.value;
+  const minSize = parseFloat(sizeSlider.value) || 0;
+  const filtered = deals.filter(d => {
+    const round = parseFloat(d.round) || 0;
+    return (sector === 'all' || d.sector === sector) && round >= minSize;
+  });
+
+  const sorted = filtered.sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if(sortKey === 'round'){ av = parseFloat(av) || 0; bv = parseFloat(bv) || 0; }
+    else { av = (av || '').toLowerCase(); bv = (bv || '').toLowerCase(); }
+    if(av < bv) return -1 * sortDir;
+    if(av > bv) return 1 * sortDir;
+    return 0;
+  });
+
+  listTbody.innerHTML = sorted.map(d => `
+    <tr data-idx="${d._idx}">
+      <td class="company">${d.name}</td>
+      <td>${d.sector}</td>
+      <td class="num">${d.round || '&mdash;'}</td>
+      <td>${d.city}</td>
+    </tr>
+  `).join('');
+
+  listHeaders.forEach(th => {
+    th.classList.toggle('sorted', th.dataset.key === sortKey);
+  });
+
+  listTbody.querySelectorAll('tr').forEach(tr => {
+    tr.addEventListener('click', () => {
+      const d = deals[parseInt(tr.dataset.idx)];
+      masterCluster.zoomToShowLayer(d._marker, () => {
+        d._marker.openPopup();
+      });
+    });
+  });
+}
+
+listHeaders.forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.key;
+    if(sortKey === key){ sortDir *= -1; } else { sortKey = key; sortDir = key === 'round' ? -1 : 1; }
+    renderList();
+  });
+});
+
+applyFilters(); // initialize stats now that everything is declared
+</script>
 </body>
-
 </html>
