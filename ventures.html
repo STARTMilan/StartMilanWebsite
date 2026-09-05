@@ -1829,10 +1829,10 @@ const deals = [
 
 const map = L.map('map', { zoomControl:true }).setView([42.3, 12.5], 6);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png?key=cb1_2y43_1_02b40a84a25f5699501510cc', {
   attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 19
 }).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png?key=cb1_2y43_1_02b40a84a25f5699501510cc', {
   subdomains: 'abcd', maxZoom: 19, opacity: 0.8
 }).addTo(map);
 
